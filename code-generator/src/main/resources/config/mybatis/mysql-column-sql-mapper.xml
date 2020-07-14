@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="column">
+	<parameterMap id="columnParam" type="com.hzgy.generator.entity.PdmTableColumn" />
+	<!-- 用户结果集 -->
+	<resultMap id="columnResult" type="com.hzgy.generator.entity.PdmTableColumn">
+		<id property="id" column="id" javaType="java.lang.Long" />
+		<result property="objectId" column="object_id" />
+		<result property="tableId" column="table_id" />
+		<result property="code" column="code" />
+		<result property="name" column="name" />
+		<result property="showName" column="show_name" />
+		<result property="defaultValue" column="default_value" />
+		<result property="dataType" column="data_type" />
+		<result property="length" column="length" />
+		<result property="creationDate" column="creation_date" />
+		<result property="modificationDate" column="modification_date" />
+		<result property="comment" column="comment" />
+	</resultMap>
+	
+	<select id="select_all" resultMap="columnResult" parameterMap="columnParam">
+		select * from _table_column
+	</select>
+
+	<select id="select_list_by_tid"  resultMap="columnResult" parameterMap="columnParam">
+		select * from _table_column where table_id=${tableId}
+	</select>
+	
+	<select id="select_one_by_id"  resultMap="columnResult" parameterMap="columnParam">
+		select * from _table_column where id=${id}
+	</select>
+	
+	<select id="select_one_by_objid"  resultMap="columnResult" parameterMap="columnParam">
+		select * from _table_column where object_id=#{objectId}
+	</select>
+	
+	<update id="update" parameterMap="columnParam">
+		update _table_column
+		<set>
+			<trim prefixOverrides=",">
+				<if test="objectId != null">,object_id = #{objectId}</if>
+				<if test="tableId != null">,table_id = ${tableId}</if>
+				<if test="originalCode != null">,code = #{originalCode}</if>
+				<if test="name != null">,`name` = #{name}</if>
+				<if test="showName != null">,show_name = #{showName}</if>
+				<if test="dataType != null">,data_type = #{dataType}</if>
+				<if test="defaultValue != null">,default_value=${defaultValue}</if>
+				<if test="length != null">,`length`=${length}</if>
+				<if test="creationDate != null">,creation_date=${creationDate}</if>
+				<if test="modificationDate != null">,modification_date = ${modificationDate}</if>
+				<if test="modifyTime != null">,modify_time = #{modifTime}</if>
+				<if test="comment != null">,comment = #{comment}</if>
+			</trim>
+		</set>
+		<where>
+			<if test="id != null and id != ''">
+				and id=${id}
+			</if>
+		</where>	
+	</update>
+	
+	<update id="update_by_code" parameterMap="columnParam">
+		update _table_column
+		<set>
+			<trim prefixOverrides=",">
+				<if test="objectId != null and objectId != ''">,object_id = #{objectId}</if>
+				<if test="tableId != null">,table_id = ${tableId}</if>
+				<if test="originalCode != null and originalCode != ''">,code = #{originalCode}</if>
+				<if test="name != null and name != ''">,name = #{name}</if>
+				<if test="showName != null and showName != ''">,show_name = #{showName}</if>
+				<if test="dataType != null and dataType != ''">,data_type = #{dataType}</if>
+				<if test="defaultValue != null">,default_value=${defaultValue}</if>
+				<if test="length != null">,length=${length}</if>
+				<if test="creationDate != null">,creation_date=${creationDate}</if>
+				<if test="modificationDate != null">,modification_date = ${modificationDate}</if>
+				<if test="modifyTime != null and modifyTime != ''">,modify_time = #{modifTime}</if>
+				<if test="comment != null and comment != ''">,comment = #{comment}</if>
+			</trim>
+		</set>
+		<where>
+			<if test="code != null and code != ''">
+				and Code=${code}
+			</if>
+		</where>	
+	</update>
+	
+	<insert id="insert" parameterMap="columnParam">
+		insert into _table_column
+		<trim prefix="(" prefixOverrides="," suffix=")">
+			<if test="objectId != null and objectId != ''">,object_id</if>
+			<if test="tableId != null">,table_id</if>
+			<if test="originalCode != null and originalCode != ''">,code</if>
+			<if test="name != null and name != ''">,name</if>
+			<if test="showName != null and showName != ''">,show_name</if>
+			<if test="dataType != null and dataType != ''">,data_type</if>
+			<if test="defaultValue != null and defaultValue != ''">,default_value</if>
+			<if test="length != null">,length</if>
+			<if test="creationDate != null">,creation_date</if>
+			<if test="modificationDate != null">,modification_date</if>
+			,create_time,modify_time
+			<if test="comment != null and comment != ''">,comment</if>
+		</trim>
+		values
+		<trim prefix="(" prefixOverrides="," suffix=")">
+			<if test="objectId != null and objectId != ''">,#{objectId}</if>
+			<if test="tableId != null">,${tableId}</if>
+			<if test="originalCode != null and originalCode != ''">,#{originalCode}</if>
+			<if test="name != null and name != ''">,#{name}</if>
+			<if test="showName != null and showName != ''">,#{showName}</if>
+			<if test="dataType != null and dataType != ''">,#{dataType}</if>
+			<if test="defaultValue != null and defaultValue != ''">,#{defaultValue}</if>
+			<if test="length != null">,${length}</if>
+		    <if test="creationDate != null">,${creationDate}</if>
+			<if test="modificationDate != null">,${modificationDate}</if>
+			,now(),now()
+			<if test="comment != null and comment != ''">,#{comment}</if>
+		</trim>
+		<selectKey keyProperty="generatedKey" resultType="Long">
+			  select LAST_INSERT_ID() as generatedKey   
+		</selectKey>
+	</insert>
+	
+	
+	<delete id="delete_by_id" parameterMap="columnParam">
+		delete from _table_column where id=${id}
+	</delete>
+	
+	<delete id="delete_all" parameterMap="columnParam">
+		delete from _table_column
+	</delete>
+	
+	<delete id="delete" parameterMap="columnParam">
+		delete from _table_column
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">
+					and id=${id}
+				</if>
+			</trim>
+		</where>	
+	</delete>
+</mapper>
