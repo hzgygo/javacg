@@ -1,6 +1,6 @@
 package com.hzgy.generator.utils;
 
-import org.springframework.security.crypto.codec.Hex;
+//import org.springframework.security.crypto.codec.Hex;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
 
@@ -329,21 +329,21 @@ public class StringUtil {
         return (strIndex == strLength);
     }
 
-    public String hexToBase64(String hexString) {
-        if (StringUtils.isEmpty(hexString)) {
-            return null;
-        }
-        byte[] arr = Hex.decode(hexString);
-        return Base64Utils.encodeToString(arr);
-    }
-
-    public String base64ToHex(String base64String) {
-        if (StringUtils.isEmpty(base64String)) {
-            return null;
-        }
-        byte[] arr = Base64Utils.decodeFromString(base64String	);
-        return new String(Hex.encode(arr));
-    }
+//    public String hexToBase64(String hexString) {
+//        if (StringUtils.isEmpty(hexString)) {
+//            return null;
+//        }
+//        byte[] arr = Hex.decode(hexString);
+//        return Base64Utils.encodeToString(arr);
+//    }
+//
+//    public String base64ToHex(String base64String) {
+//        if (StringUtils.isEmpty(base64String)) {
+//            return null;
+//        }
+//        byte[] arr = Base64Utils.decodeFromString(base64String	);
+//        return new String(Hex.encode(arr));
+//    }
 
     // public static void main(String[] args) {
     // // System.out.println(generateRandom(6));
