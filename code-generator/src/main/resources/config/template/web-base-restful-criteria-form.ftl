@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.base;
 
-import ${com_jbt_bms}.entity.BaseVo;
+import ${path_bms}.entity.BaseVo;
 
 public abstract class Base${entity}Criteria extends BaseVo{
 

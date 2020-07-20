@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.entity;
 
-import ${com_jbt_core}.entity.BaseOutput;
+import ${path_core}.entity.BaseOutput;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 <#list columns as cols>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="database">
+
+	<parameterMap id="databaseParam" type="com.hzgy.generator.entity.PdmDatabase" />
+	<resultMap id="databaseResult" type="com.hzgy.generator.entity.PdmDatabase">
+		<result property="count" column="count" />
+	</resultMap>
+	
+	<select id="select_database" resultMap="databaseResult" parameterMap="databaseParam">
+		select count(*) count FROM information_schema.schemata WHERE schema_name=#{name}
+	</select>
+
+	<update id="create_database" parameterMap="databaseParam">
+		CREATE DATABASE IF NOT EXISTS ${name} DEFAULT CHARSET utf8 COLLATE utf8_general_ci
+	</update>
+
+</mapper>

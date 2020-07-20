@@ -15,12 +15,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-@SuppressWarnings({"ALL", "ResultOfMethodCallIgnored"})
-public class CreateClassService extends BaseCreateService {
+public class GeneratorClassService extends BaseGeneratorService {
 
-	private static Logger logger = Logger.getLogger(CreateClassService.class);
+	private static Logger logger = Logger.getLogger(GeneratorClassService.class);
 
 	/**
 	 * 生成 service 相关类和资源文件
@@ -35,7 +33,7 @@ public class CreateClassService extends BaseCreateService {
 			return ;
 		}
 		// 生成器根目录
-		String creatorRootPath = path.getCreatorRootPath();
+		String generatorRootPath = path.getGeneratorRootPath();
 		// 服务根目录
 		String serviceRootPath = path.getServiceRootPath();
 		// 资源文件根目录
@@ -44,10 +42,12 @@ public class CreateClassService extends BaseCreateService {
 		String javaPath = path.getJavaPath();
 		// core目录
 		String dependPackage = path.getDependPackage();
+		//服务名称简写
+		String serviceSimpleName = path.getServiceSimpleName();
 		//路径处理程序
 		PathHandler pathHandler = new PathHandler();
 		// 生成模板文件存放目录
-		String creatorTemplatePath = null;
+		String generatorTemplatePath = null;
 		// 目标项目类路径
 		String targetProjectClassPath = null;
 		// 目标项目资源文件路径
@@ -59,11 +59,10 @@ public class CreateClassService extends BaseCreateService {
 			relativeProjectPath = relativeProjectPath.substring(1, relativeProjectPath.length());
 		}
 		//生成类，资源文件，mybatis 配置文件
-		creatorTemplatePath = creatorRootPath + File.separator
+		generatorTemplatePath = generatorRootPath + File.separator
 				+ recsourcesPath + File.separator
-				+ "creator" + File.separator
-				+ "template" + File.separator
-				+ "class";
+				+ "config" + File.separator
+				+ "template";
 		targetProjectClassPath = serviceRootPath + File.separator + javaPath;
 		if (!relativeProjectPath.equals("")) {
 			targetProjectClassPath += File.separator + relativeProjectPath;
@@ -76,7 +75,7 @@ public class CreateClassService extends BaseCreateService {
 		//设置核心包路径
 		pathHandler.setDependPackage(dependPackage);
 		//设置生成器模板路径
-		pathHandler.setCreatorTemplatePath(creatorTemplatePath);
+		pathHandler.setGeneratorTemplatePath(generatorTemplatePath);
 		//设置项目资源文件路径
 		pathHandler.setTargetProjectResourcesPath(targetProjectResourcesPath);
 		//设置项目类路径
@@ -132,6 +131,8 @@ public class CreateClassService extends BaseCreateService {
 			index += 1;
 			//表名称去掉下滑线后的名称
 			String tableCode = table.getCode();
+			//服务名称简写
+			pathHandler.setServiceSimpleName(serviceSimpleName);
 			// 生成基类实体bean
 			pathHandler.setClassServiceType("service-base-po-entity");
 			pathHandler.setForce(true);
@@ -390,7 +391,7 @@ public class CreateClassService extends BaseCreateService {
 			return ;
 		}
 		// 生成器根目录
-		String creatorRootPath = path.getCreatorRootPath();
+		String generatorRootPath = path.getGeneratorRootPath();
 		// 服务根目录
 		String serviceRootPath = path.getServiceRootPath();
 		// 资源文件根目录
@@ -404,7 +405,7 @@ public class CreateClassService extends BaseCreateService {
 		//路径处理程序
 		PathHandler pathHandler = new PathHandler();
 		// 生成模板文件存放目录
-		String creatorTemplatePath = null;
+		String generatorTemplatePath = null;
 		// 目标项目类路径
 		String targetProjectClassPath = null;
 		// 目标项目资源文件路径
@@ -416,11 +417,10 @@ public class CreateClassService extends BaseCreateService {
 			relativeProjectPath = relativeProjectPath.substring(1, relativeProjectPath.length());
 		}
 		//生成类，资源文件，mybatis 配置文件
-		creatorTemplatePath = creatorRootPath + File.separator
+		generatorTemplatePath = generatorRootPath + File.separator
 				+ recsourcesPath + File.separator
-				+ "creator" + File.separator
-				+ "template" + File.separator
-				+ "class";
+				+ "config" + File.separator
+				+ "template";
 		targetProjectClassPath = serviceRootPath + File.separator + javaPath;
 		if (!relativeProjectPath.equals("")) {
 			targetProjectClassPath += File.separator + relativeProjectPath;
@@ -429,7 +429,7 @@ public class CreateClassService extends BaseCreateService {
 		//设置核心包路径
 		pathHandler.setDependPackage(dependPackage);
 		//设置生成器模板路径
-		pathHandler.setCreatorTemplatePath(creatorTemplatePath);
+		pathHandler.setGeneratorTemplatePath(generatorTemplatePath);
 		//设置项目资源文件路径
 		pathHandler.setTargetProjectResourcesPath(targetProjectResourcesPath);
 		//设置项目类路径
@@ -465,7 +465,8 @@ public class CreateClassService extends BaseCreateService {
 			}
 			//表名称去掉下滑线后的名称
 			String tableCode = table.getCode();
-
+			//服务名称简写
+			pathHandler.setServiceSimpleName(serviceSimpleName);
 			// 生成基类实体bean
 			pathHandler.setClassServiceType("base-feign-po-input");
 			pathHandler.setForce(true);
@@ -502,7 +503,7 @@ public class CreateClassService extends BaseCreateService {
 			return ;
 		}
 		// 生成器根目录
-		String creatorRootPath = path.getCreatorRootPath();
+		String generatorRootPath = path.getGeneratorRootPath();
 		// 服务根目录
 		String serviceRootPath = path.getServiceRootPath();
 		// 资源文件根目录
@@ -518,7 +519,7 @@ public class CreateClassService extends BaseCreateService {
 		//路径处理程序
 		PathHandler pathHandler = new PathHandler();
 		// 生成模板文件存放目录
-		String creatorTemplatePath = null;
+		String generatorTemplatePath = null;
 		// 目标项目类路径
 		String targetProjectClassPath = null;
 		// 目标项目资源文件路径
@@ -530,11 +531,10 @@ public class CreateClassService extends BaseCreateService {
 			relativeProjectPath = relativeProjectPath.substring(1, relativeProjectPath.length());
 		}
 		//生成类，资源文件，mybatis 配置文件
-		creatorTemplatePath = creatorRootPath + File.separator
+		generatorTemplatePath = generatorRootPath + File.separator
 				+ recsourcesPath + File.separator
-				+ "creator" + File.separator
-				+ "template" + File.separator
-				+ "class";
+				+ "config" + File.separator
+				+ "template";
 		targetProjectClassPath = serviceRootPath + File.separator + javaPath;
 		if (!relativeProjectPath.equals("")) {
 			targetProjectClassPath += File.separator + relativeProjectPath;
@@ -545,7 +545,7 @@ public class CreateClassService extends BaseCreateService {
 		//设置核心包路径
 		pathHandler.setDependPackage(dependPackage);
 		//设置生成器模板路径
-		pathHandler.setCreatorTemplatePath(creatorTemplatePath);
+		pathHandler.setGeneratorTemplatePath(generatorTemplatePath);
 		//设置项目资源文件路径
 		pathHandler.setTargetProjectResourcesPath(targetProjectResourcesPath);
 		//设置项目类路径
@@ -581,6 +581,8 @@ public class CreateClassService extends BaseCreateService {
 			}
 			//表名称去掉下滑线后的名称
 			String tableCode = table.getCode();
+			//服务名称简写
+			pathHandler.setServiceSimpleName(serviceSimpleName);
 			// 生成基类实体bean
 			pathHandler.setClassServiceType("base-feign-vo");
 			pathHandler.setForce(true);
@@ -656,7 +658,7 @@ public class CreateClassService extends BaseCreateService {
 			return ;
 		}
 		// 生成器根目录
-		String creatorRootPath = path.getCreatorRootPath();
+		String generatorRootPath = path.getGeneratorRootPath();
 		// 服务根目录
 		String serviceRootPath = path.getServiceRootPath();
 		// 资源文件根目录
@@ -672,7 +674,7 @@ public class CreateClassService extends BaseCreateService {
 		//路径处理程序
 		PathHandler pathHandler = new PathHandler();
 		// 生成模板文件存放目录
-		String creatorTemplatePath = null;
+		String generatorTemplatePath = null;
 		// 目标项目类路径
 		String targetProjectClassPath = null;
 		// 目标项目资源文件路径
@@ -685,11 +687,10 @@ public class CreateClassService extends BaseCreateService {
 		}
 		relativeProjectPath +=  "/" + serviceSimpleName;
 		//生成类，资源文件，mybatis 配置文件
-		creatorTemplatePath = creatorRootPath + File.separator
+		generatorTemplatePath = generatorRootPath + File.separator
 				+ recsourcesPath + File.separator
-				+ "creator" + File.separator
-				+ "template" + File.separator
-				+ "class";
+				+ "config" + File.separator
+				+ "template";
 		targetProjectClassPath = serviceRootPath + File.separator + javaPath;
 		if (!relativeProjectPath.equals("")) {
 			targetProjectClassPath += File.separator + relativeProjectPath;
@@ -702,7 +703,7 @@ public class CreateClassService extends BaseCreateService {
 		//设置核心包路径
 		pathHandler.setDependPackage(dependPackage);
 		//设置生成器模板路径
-		pathHandler.setCreatorTemplatePath(creatorTemplatePath);
+		pathHandler.setGeneratorTemplatePath(generatorTemplatePath);
 		//设置项目资源文件路径
 		pathHandler.setTargetProjectResourcesPath(targetProjectResourcesPath);
 		//设置项目类路径
@@ -713,7 +714,6 @@ public class CreateClassService extends BaseCreateService {
 		pathHandler.setApiPerfix(path.getApiPerfix());
 		//忽略的表过滤掉
 		ArrayList<PdmTable> tables = pdm.getTables();
-		ArrayList<PdmTable> genTables = new ArrayList<PdmTable>();
 		//转换成类型路径
 		relativeProjectPath = relativeProjectPath.replaceAll("/", ".");
 		//设置项目相对路径，间路径中的斜杠（/）转换成类包路径（.）
@@ -734,12 +734,14 @@ public class CreateClassService extends BaseCreateService {
 			if (ignoreTableCode != null) {
 				continue;
 			}
-			if (table == null || table.getCode() == null){
+			if (table.getCode() == null){
 				continue;
 			}
 			index += 1;
 			//表名称去掉下滑线后的名称
 			String tableCode = table.getCode();
+			//服务名称简写
+			pathHandler.setServiceSimpleName(serviceSimpleName);
 			// 生成message文件
 			pathHandler.setClassServiceType("web-message");
 			pathHandler.setForce(false);
@@ -828,7 +830,7 @@ public class CreateClassService extends BaseCreateService {
 		//生成类业务类型
 		String classServiceType = pathHandler.getClassServiceType();
 		//生成器模板路径
-		String creatorTemplatePath = pathHandler.getCreatorTemplatePath();
+		String generatorTemplatePath = pathHandler.getGeneratorTemplatePath();
 		//类文件存放根目录
 		String targetProjectClassPath = pathHandler.getTargetProjectClassPath();
 		//工程相对路径
@@ -853,7 +855,7 @@ public class CreateClassService extends BaseCreateService {
 			// freemarker 配置对象
 			Configuration config = new Configuration();
 			// 模板文件目录
-			File file = new File(creatorTemplatePath);
+			File file = new File(generatorTemplatePath);
 			// 加载模板文件
 			config.setDirectoryForTemplateLoading(file);
 			// 设置包装对象
@@ -862,11 +864,11 @@ public class CreateClassService extends BaseCreateService {
 			Template template = config.getTemplate(templateName, ENCODING);
 			//生成文件绝对目录
 			String filePath = targetProjectClassPath + File.separator + fileRelativePath;
-			File creatorFilePath = new File(filePath);
+			File generatorFilePath = new File(filePath);
 			//目录不存在生成目录
-			if (!creatorFilePath.exists()) {
+			if (!generatorFilePath.exists()) {
 				// 生成目录
-				boolean boo = creatorFilePath.mkdirs();
+				boolean boo = generatorFilePath.mkdirs();
 				if (boo) {
 					logger.info("成功创建生成文件存放目录：" + filePath);
 				}
@@ -874,11 +876,11 @@ public class CreateClassService extends BaseCreateService {
 			//生成文件绝对路径
 			String absolutefileName = filePath + File.separator + fileName;
 			Boolean force = pathHandler.getForce();
-			File creatorFile = new File(absolutefileName);
+			File generatorFile = new File(absolutefileName);
 			//判断文件是否要每次强制生成
-			if (creatorFile.exists()) {
+			if (generatorFile.exists()) {
 				if (force) {
-					boolean boo = creatorFile.delete();
+					boolean boo = generatorFile.delete();
 					if (boo) {
 						logger.info("名称为：" + fileName + " 的文件已经成功删除，进行重新生成.");
 					}
@@ -899,9 +901,11 @@ public class CreateClassService extends BaseCreateService {
 						if (dep == null || dep.equals("")) {
 							continue;
 						}
-						String key = dep.replaceAll("\\.","_");
+						int lindx = dep.lastIndexOf(".");
+						String key =  "path_" + dep.substring(lindx + 1,dep.length());
 						model.put(key, dep);
 					}
+					logger.info("依赖程序包：" + model);
 				}
 				// 设置table对象
 				if (tables != null) {
@@ -955,65 +959,66 @@ public class CreateClassService extends BaseCreateService {
 	/**
 	 * 生成mybatis 基础配置文件
 	 * @param pathHandler 工程路径对象 Handler
-	 * @param table 表解析对象s
+	 * @param tables 表解析对象s
 	 */
 	private void createMybatisConfig(PathHandler pathHandler,
 			ArrayList<PdmTable> tables){
-		if(tables != null && tables.size() > 0){
-			logger.info("开始进行【mybatis-config.xml】配置文件生成...");
-			String daoTemplatePath = pathHandler.getCreatorTemplatePath();
-			String targetProjectResourcesPath = pathHandler.getTargetProjectResourcesPath();
-			String relativeProjectPath = pathHandler.getRelativeProjectPath();
+		if(tables == null|| tables.size() == 0) {
+			return ;
+		}
+		logger.info("开始进行【mybatis-config.xml】配置文件生成...");
+		String daoTemplatePath = pathHandler.getGeneratorTemplatePath();
+		String targetProjectResourcesPath = pathHandler.getTargetProjectResourcesPath();
+		String relativeProjectPath = pathHandler.getRelativeProjectPath();
+		try{
+			// freemarker 配置对象
+			Configuration config = new Configuration();
+			// 模板文件目录
+			File file = new File(daoTemplatePath);
+			// 加载模板文件
+			config.setDirectoryForTemplateLoading(file);
+			// 设置包装对象
+			config.setObjectWrapper(new DefaultObjectWrapper());
+			// 加载模板文件
+			Template template = config.getTemplate("mybatis-config.ftl",ENCODING);
+			// bean名称
+			targetProjectResourcesPath = targetProjectResourcesPath  + File.separator + CONFIG;
+			File customAbsolutePathFile = new File(targetProjectResourcesPath);
+			if(!customAbsolutePathFile.exists()){
+				// 生成目录
+				customAbsolutePathFile.mkdirs();
+			}
+			String mybatisFileName = targetProjectResourcesPath + File.separator + "mybatis-config.xml";
+			File mybatisFileNameFile = new File(mybatisFileName);
+			// 文件存在，删除在生成
+			if(mybatisFileNameFile.exists()){
+				mybatisFileNameFile.delete();
+			}
+			String relativeProjectClassPath = relativeProjectPath.replaceAll("/",".");
+			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(mybatisFileName),"UTF-8"));
 			try{
-				// freemarker 配置对象
-				Configuration config = new Configuration();
-				// 模板文件目录
-				File file = new File(daoTemplatePath);
-				// 加载模板文件
-				config.setDirectoryForTemplateLoading(file);
-				// 设置包装对象
-				config.setObjectWrapper(new DefaultObjectWrapper());
-				// 加载模板文件
-				Template template = config.getTemplate("mybatis-config.ftl",ENCODING);
-				// bean名称
-				targetProjectResourcesPath = targetProjectResourcesPath  + File.separator + CONFIG;
-				File customAbsolutePathFile = new File(targetProjectResourcesPath);
-				if(!customAbsolutePathFile.exists()){
-					// 生成目录
-					customAbsolutePathFile.mkdirs();
+				// 上文数据存储对象
+				Map<String,Object> model = new HashMap<String,Object>();
+				model.put("relativeProjectClassPath",relativeProjectClassPath);
+				model.put("relativeProjectPath",relativeProjectPath);
+				// 设置table对象
+				model.put("tables",tables);
+				// 生成文件
+				template.process(model,out);
+				logger.info("生成名称为：" + "【mybatis-config.xml】的Mybatis文件.");
+				if(out != null){
+					out.flush();
+					out.close();
 				}
-				String mybatisFileName = targetProjectResourcesPath + File.separator + "mybatis-config.xml";
-				File mybatisFileNameFile = new File(mybatisFileName);
-				// 文件存在，删除在生成
-				if(mybatisFileNameFile.exists()){
-					mybatisFileNameFile.delete();
-				}
-				String relativeProjectClassPath = relativeProjectPath.replaceAll("/",".");
-				Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(mybatisFileName),"UTF-8"));
-				try{
-					// 上文数据存储对象
-					Map<String,Object> model = new HashMap<String,Object>();
-					model.put("relativeProjectClassPath",relativeProjectClassPath);
-					model.put("relativeProjectPath",relativeProjectPath);
-					// 设置table对象
-					model.put("tables",tables);
-					// 生成文件
-					template.process(model,out);
-					logger.info("生成名称为：" + "【mybatis-config.xml】的Mybatis文件.");
-					if(out != null){
-						out.flush();
-						out.close();
-					}
-				}
-				catch(TemplateException e){
-					e.printStackTrace();
-				}
-				logger.info("【mybatis-config.xml】配置文件生成完成.");
 			}
-			catch(IOException e1){
-				e1.printStackTrace();
-				logger.info("【mybatis-config.xml】配置文件生成失败.");
+			catch(TemplateException e){
+				e.printStackTrace();
 			}
+			logger.info("【mybatis-config.xml】配置文件生成完成.");
+		}
+		catch(IOException e1){
+			e1.printStackTrace();
+			logger.info("【mybatis-config.xml】配置文件生成失败.");
 		}
 	}
 }

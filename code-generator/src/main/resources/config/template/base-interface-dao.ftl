@@ -2,8 +2,8 @@ package ${relativeProjectPath}.${entityPath}.base;
 
 import java.util.List;
 import ${relativeProjectPath}.${entityPath}.entity.${entity}Po;
-import ${com_jbt_db}.dao.IDao;
-import ${com_jbt_core}.exception.DAOException;
+import ${path_db}.dao.IDao;
+import ${path_core}.exception.DAOException;
 
 public interface IBase${entity}Dao extends IDao{
 <#assign idIsExist="false"/>

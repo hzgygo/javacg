@@ -3,11 +3,11 @@ package ${relativeProjectPath}.${entityPath}.base;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import ${com_jbt_core}.entity.BaseInput;
-import ${com_jbt_core}.entity.BaseOutput;
-import ${com_jbt_core}.entity.ResultData;
-import ${com_jbt_core}.service.IService;
-import ${com_jbt_core}.exception.base.BaseException;
+import ${path_core}.entity.BaseInput;
+import ${path_core}.entity.BaseOutput;
+import ${path_core}.entity.ResultData;
+import ${path_core}.service.IService;
+import ${path_core}.exception.base.BaseException;
 
 public interface IBase${entity}Service<Input extends BaseInput,Output extends BaseOutput> extends IService{
 <#assign idIsExist="false"/>

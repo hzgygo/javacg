@@ -3,8 +3,8 @@ package ${relativeProjectPath}.service;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import ${com_jbt_core}.entity.BaseVo;
-import ${com_jbt_core}.exception.base.BaseException;
+import ${path_core}.entity.BaseVo;
+import ${path_core}.exception.base.BaseException;
 
 public interface IBase${entity}<Vo extends BaseVo>{
 <#assign idIsExist="false"/>

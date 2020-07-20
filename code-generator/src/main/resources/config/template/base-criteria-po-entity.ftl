@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.base;
 
-import ${com_jbt_core}.entity.BasePo;
+import ${path_core}.entity.BasePo;
 
 public abstract class Base${entity}CriteriaPo extends BasePo {
 

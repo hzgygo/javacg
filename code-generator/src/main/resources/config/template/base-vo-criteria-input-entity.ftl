@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.base;
 
-import ${com_jbt_core}.entity.BaseInput;
+import ${path_core}.entity.BaseInput;
 import io.swagger.annotations.ApiModelProperty;
 
 public abstract class Base${entity}CriteriaInput extends BaseInput {

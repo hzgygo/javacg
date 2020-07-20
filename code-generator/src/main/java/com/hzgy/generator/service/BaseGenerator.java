@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseCreator {
+public abstract class BaseGenerator {
 
 	//数据库设计pdm对象
 	private Pdm serviecPdm;
@@ -21,24 +21,24 @@ public abstract class BaseCreator {
 			System.out.println("config:" + config);
 			String databaseName =  config.get("databaseName");
 			String pdmFileName =  config.get("pdmFileName");
-			String creatorRootPath =  config.get("creatorRootPath");
+			String generatorRootPath =  config.get("generatorRootPath");
 			String resourcesPath =  config.get("resourcesPath");
 			String databaseRootPath =  config.get("databaseRootPath");
 			// 通用业务员数据表结构设计(下面生成逻辑不允许修改，否则导致表验证错误)
 			//生成器通用表数据库设计存放目录
-			String creatorPdmPath = creatorRootPath
+			String generatorPdmPath = generatorRootPath
 					+ File.separator + resourcesPath
-					+ File.separator + "creator"
+					+ File.separator + "config"
 					+ File.separator + "database";
-			Pdm creatorPdm = new ParserPdmService().pdmParser(creatorPdmPath, "mysql-jbt-creator.pdm",false);
-			CreateFactory.getCreateDatabaseInstance(databaseName).createDatebase(creatorRootPath,creatorPdm,false,false);
+			Pdm generatorPdm = new ParserPdmService().pdmParser(generatorPdmPath, "mysql-generator.pdm",false);
+			GeneratorFactory.getCreateDatabaseInstance(databaseName).createDatebase(generatorRootPath,generatorPdm,false,false);
 			//各个服务生成的配置
 			String servicePdmPath = databaseRootPath;
-//			String servicePdmPath = creatorRootPath
+//			String servicePdmPath = generatorRootPath
 //					+ File.separator + resourcesPath
 //					+ File.separator + "database";
 			serviecPdm = new ParserPdmService().pdmParser(servicePdmPath, pdmFileName,false);
-			CreateFactory.getCreateDatabaseInstance(databaseName).createDatebase(creatorRootPath,serviecPdm,true,true);
+			GeneratorFactory.getCreateDatabaseInstance(databaseName).createDatebase(generatorRootPath,serviecPdm,true,true);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -53,11 +53,12 @@ public abstract class BaseCreator {
 	public void  serviceBmsCreate(Map<String,String> config) {
 		try {
 			System.out.println("config:" + config);
+			String serviceSimpleName =  config.get("serviceSimpleName");
 			String relativePath =  config.get("relativePath");
 			String dependPackage =  config.get("dependPackage");
 			String serviceRootPath =  config.get("serviceBmsRootPath");
 			String apiPerfix =  config.get("apiPerfix");
-			String creatorRootPath =  config.get("creatorRootPath");
+			String generatorRootPath =  config.get("generatorRootPath");
 			String resourcesPath =  config.get("resourcesPath");
 			String javaPath =  config.get("javaPath");
 			String ignoreTables =  config.get("ignoreTables");
@@ -71,14 +72,16 @@ public abstract class BaseCreator {
 			}
 			// 生成service工程服务信息
 			Path servicePath = new Path();
+			servicePath.setServiceSimpleName(serviceSimpleName);
 			servicePath.setApiPerfix(apiPerfix);
-			servicePath.setCreatorRootPath(creatorRootPath);
+			servicePath.setGeneratorRootPath(generatorRootPath);
 			servicePath.setServiceRootPath(serviceRootPath);
-			servicePath.setRelativePath(relativePath);
+			//转成文件路径
+			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);
-			CreateFactory.getCreaterClassInstance().createService(serviecPdm, servicePath, ignoreTableMap);
+			GeneratorFactory.getCreaterClassInstance().createService(serviecPdm, servicePath, ignoreTableMap);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -92,11 +95,12 @@ public abstract class BaseCreator {
 	public void  serviceFmsCreate(Map<String,String> config) {
 		try {
 			System.out.println("config:" + config);
+			String serviceSimpleName =  config.get("serviceSimpleName");
 			String relativePath =  config.get("relativePath");
 			String dependPackage =  config.get("dependPackage");
-			String serviceRootPath =  config.get("serviceFmsRootPath");
+			String serviceRootPath =  config.get("serviceFesRootPath");
 			String apiPerfix =  config.get("apiPerfix");
-			String creatorRootPath =  config.get("creatorRootPath");
+			String generatorRootPath =  config.get("generatorRootPath");
 			String resourcesPath =  config.get("resourcesPath");
 			String javaPath =  config.get("javaPath");
 			String ignoreTables =  config.get("ignoreTables");
@@ -111,13 +115,16 @@ public abstract class BaseCreator {
 			// 生成service工程服务信息
 			Path servicePath = new Path();
 			servicePath.setApiPerfix(apiPerfix);
-			servicePath.setCreatorRootPath(creatorRootPath);
+			servicePath.setGeneratorRootPath(generatorRootPath);
+			servicePath.setServiceSimpleName(serviceSimpleName);
 			servicePath.setServiceRootPath(serviceRootPath);
+			//转成文件路径
+			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
 			servicePath.setRelativePath(relativePath);
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);
-			CreateFactory.getCreaterClassInstance().createService(serviecPdm, servicePath, ignoreTableMap);
+			GeneratorFactory.getCreaterClassInstance().createService(serviecPdm, servicePath, ignoreTableMap);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -139,7 +146,7 @@ public abstract class BaseCreator {
 			String projectName =  config.get("projectName");
 			String dependPackage =  config.get("dependPackage");
 			String ignoreTables =  config.get("ignoreTables");
-			String creatorRootPath = config.get("creatorRootPath");
+			String generatorRootPath = config.get("generatorRootPath");
 			String resourcesPath = config.get("resourcesPath");
 			String feignClientrootPath = config.get("feignClientrootPath");
 			String javaPath = config.get("javaPath");
@@ -158,13 +165,15 @@ public abstract class BaseCreator {
 			Path servicePath = new Path();
 			servicePath.setServiceName(serviceName);
 			servicePath.setServiceSimpleName(serviceSimpleName);
-			servicePath.setCreatorRootPath(creatorRootPath);
+			servicePath.setGeneratorRootPath(generatorRootPath);
 			servicePath.setServiceRootPath(serviceProjectPath);
 			servicePath.setRelativePath(relativePath);
+			//转成文件路径
+			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);
-			CreateFactory.getCreaterClassInstance().createFeignClientApi(serviecPdm, servicePath, ignoreTableMap);
+			GeneratorFactory.getCreaterClassInstance().createFeignClientApi(serviecPdm, servicePath, ignoreTableMap);
 
 		}
 		catch (Exception e) {
@@ -187,7 +196,7 @@ public abstract class BaseCreator {
 			String projectName =  config.get("projectName");
 			String dependPackage =  config.get("dependPackage");
 			String ignoreTables =  config.get("ignoreTables");
-			String creatorRootPath =  config.get("creatorRootPath");
+			String generatorRootPath =  config.get("generatorRootPath");
 			String resourcesPath =  config.get("resourcesPath");
 			String webClientRootPath =  config.get("webClientRootPath");
 			String apiPerfix =  config.get("apiPerfix");
@@ -208,13 +217,13 @@ public abstract class BaseCreator {
 			servicePath.setApiPerfix(apiPerfix);
 			servicePath.setServiceSimpleName(serviceSimpleName);
 			servicePath.setServiceName(serviceName);
-			servicePath.setCreatorRootPath(creatorRootPath);
+			servicePath.setGeneratorRootPath(generatorRootPath);
 			servicePath.setServiceRootPath(serviceProjectPath);
 			servicePath.setRelativePath(relativePath);
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);
-			CreateFactory.getCreaterClassInstance().createWebClientAPI(serviecPdm, servicePath,false, ignoreTableMap);
+			GeneratorFactory.getCreaterClassInstance().createWebClientAPI(serviecPdm, servicePath,false, ignoreTableMap);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

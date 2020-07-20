@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.base;
 
-import ${com_jbt_core}.entity.BaseOutput;
+import ${path_core}.entity.BaseOutput;
 <#list columns as cols>
 <#if cols.dataType?contains('decimal')>
 import java.math.BigDecimal;

@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.*;
-import ${com_jbt_interceptor}.valid.group.*;
+import ${path_jbt_interceptor}.valid.group.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.annotation.Resource;
 
-import ${com_jbt_core}.entity.ResultData;
+import ${path_core}.entity.ResultData;
 import ${relativeProjectPath}.${entityPath}.entity.${entity}Input;
 import ${relativeProjectPath}.${entityPath}.entity.${entity}Output;
 import ${relativeProjectPath}.${entityPath}.base.Base${entity}Controller;

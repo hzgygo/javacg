@@ -11,7 +11,7 @@ public class PathHandler extends Path {
 	//是否强制生成文件（true:每次都重新生成新的文件；false:不重新生成）
 	private Boolean isForce;
 	// 生成模板文件存放目录
-	private String creatorTemplatePath;
+	private String generatorTemplatePath;
 	// 目标项目类路径
 	private String targetProjectClassPath;
 	// 目标项目资源文件路径
@@ -24,6 +24,8 @@ public class PathHandler extends Path {
 	private String templateName;
 	//生成文件名称
 	private String fileName;
+	//服务名称简写
+	private String serviceSimpleName;
 	//生成文件相对路径（不用类文件的相对路径）
 	private String fileRelativePath;
 
@@ -43,12 +45,12 @@ public class PathHandler extends Path {
 		isForce = force;
 	}
 
-	public String getCreatorTemplatePath() {
-		return creatorTemplatePath;
+	public String getGeneratorTemplatePath() {
+		return generatorTemplatePath;
 	}
 
-	public void setCreatorTemplatePath(String creatorTemplatePath) {
-		this.creatorTemplatePath = creatorTemplatePath;
+	public void setGeneratorTemplatePath(String generatorTemplatePath) {
+		this.generatorTemplatePath = generatorTemplatePath;
 	}
 
 	public String getTargetProjectClassPath() {
@@ -105,5 +107,15 @@ public class PathHandler extends Path {
 
 	public void setFileRelativePath(String fileRelativePath) {
 		this.fileRelativePath = fileRelativePath;
+	}
+
+	@Override
+	public String getServiceSimpleName() {
+		return serviceSimpleName;
+	}
+
+	@Override
+	public void setServiceSimpleName(String serviceSimpleName) {
+		this.serviceSimpleName = serviceSimpleName;
 	}
 }

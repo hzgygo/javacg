@@ -8,7 +8,7 @@ package ${relativeProjectPath}.${entityPath}.entity;
 		<#assign idIsExist="true"/>
 	</#if>
 </#list>
-import ${com_jbt_core}.entity.BaseVo;
+import ${path_core}.entity.BaseVo;
 <#list columns as cols>
 	<#if cols.dataType?contains('decimal')>
     import java.math.BigDecimal;

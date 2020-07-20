@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class QueryService  extends BaseCreateService{
+public class QueryService  extends BaseGeneratorService {
 	
 	static Logger logger = Logger.getLogger(QueryService.class);
 	/**表信息操作Dao**/

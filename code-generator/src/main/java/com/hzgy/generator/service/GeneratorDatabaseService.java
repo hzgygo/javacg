@@ -13,9 +13,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CreateDatabaseService extends BaseCreateService {
+public class GeneratorDatabaseService extends BaseGeneratorService {
 
-	static Logger logger = Logger.getLogger(CreateDatabaseService.class);
+	static Logger logger = Logger.getLogger(GeneratorDatabaseService.class);
 	/** 表信息操作Dao **/
 	private TableDao tableDao;
 	/** 表字段信息操作Dao **/
@@ -33,7 +33,7 @@ public class CreateDatabaseService extends BaseCreateService {
 		}
 	};
 
-	public CreateDatabaseService(String databaseName) {
+	public GeneratorDatabaseService(String databaseName) {
 		this.databaseName = databaseName;
 		this.tableDao = new TableDao(databaseName);
 		this.columnDao = new ColumnDao(databaseName);
@@ -41,16 +41,15 @@ public class CreateDatabaseService extends BaseCreateService {
 
 	/**
 	 * 验证pdm文件是否有修改，如果无修改不进行任何生成创建操作
-	 * @param creatorRootPath
+	 * @param generatorRootPath
 	 * @param pdm
 	 * @return
 	 */
-	private Boolean validPdmModify(String creatorRootPath,Pdm pdm){
-		String tmpFilePath = creatorRootPath
+	private Boolean validPdmModify(String generatorRootPath,Pdm pdm){
+		String tmpFilePath = generatorRootPath
 				+ File.separator + "src"
 				+ File.separator + "main"
 				+ File.separator +  "resources"
-				+ File.separator + "creator"
 				+ File.separator + "tmp";
 		//获取pdm文件，并获取器修改时间
 		String pdmFilePath = pdm.getPdmFilaPath();
@@ -95,21 +94,21 @@ public class CreateDatabaseService extends BaseCreateService {
 
 	/**
 	 * 创建数据库
-	 * @param creatorRootPath
+	 * @param generatorRootPath
 	 * @param pdm
 	 * @param isValidModify
 	 * @param isGenerateScript
 	 */
-	public void createDatebase(String creatorRootPath,Pdm pdm,Boolean isValidModify,Boolean isGenerateScript) {
+	public void createDatebase(String generatorRootPath,Pdm pdm,Boolean isValidModify,Boolean isGenerateScript) {
 
 		if (isValidModify) {
-			boolean isModify = this.validPdmModify(creatorRootPath, pdm);
+			boolean isModify = this.validPdmModify(generatorRootPath, pdm);
 			if (!isModify) {
 				return;
 			}
 		}
 		// 生成器根目录
-//		String creatorRootPath = System.getProperty("user.dir");
+//		String generatorRootPath = System.getProperty("user.dir");
 		//建表脚本，包括建表，关系，索引
 		StringBuffer createScript = new StringBuffer();
 		//表结构修改脚本
@@ -126,19 +125,19 @@ public class CreateDatabaseService extends BaseCreateService {
 			//生成整体建库脚本
 			long times = System.currentTimeMillis();
 			String createFileName = "create_" + this.databaseName + ".sql";
-			this.generateScript(creatorRootPath, createFileName, createScript);
+			this.generateScript(generatorRootPath, createFileName, createScript);
 			//生成数据库修改脚本
 			String alterFileName = "alter_" + this.databaseName + ".sql";
-			this.generateScript(creatorRootPath, alterFileName, alterScript);
+			this.generateScript(generatorRootPath, alterFileName, alterScript);
 		}
 	}
 	
-	private void generateScript(String creatorRootPath,String fileName,StringBuffer script) {
+	private void generateScript(String generatorRootPath,String fileName,StringBuffer script) {
 		// 表名称(名称结构必须为xx_xxxxxx)
 		logger.info("开始进行数据库的脚本文件生成.");
 		try{
 			// 生成目录
-			String scriptPath = creatorRootPath 
+			String scriptPath = generatorRootPath
 					+ File.separator + "src"
 					+ File.separator + "main"
 					+ File.separator +  "resources"

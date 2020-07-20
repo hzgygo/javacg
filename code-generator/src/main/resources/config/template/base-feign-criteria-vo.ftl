@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${servieSimpleName}.vo.base;
 
-import ${com_jbt_core}.entity.BaseClientVo;
+import ${path_core}.entity.BaseClientVo;
 
 public abstract class Base${entity}Criteria extends BaseClientVo{
 

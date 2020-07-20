@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.base;
 
-import ${com_jbt_core}.entity.BaseDto;
+import ${path_core}.entity.BaseDto;
 
 public abstract class Base${entity}Dto extends BaseDto {
 

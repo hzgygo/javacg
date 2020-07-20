@@ -16,7 +16,7 @@ import ${relativeProjectPath}.${servieSimpleName}.vo.${entity}Output;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import ${com_jbt_core}.entity.ResultData;
+import ${path_core}.entity.ResultData;
 
 public interface IBase${entity}Client{
 

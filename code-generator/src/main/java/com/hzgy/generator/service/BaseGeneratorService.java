@@ -6,7 +6,7 @@ import java.io.IOException;
 
 
 
-public abstract class BaseCreateService{
+public abstract class BaseGeneratorService {
 	
 	/**数据库设计文件存放目录**/
 	public static String PDM_FILE_PATH = "classpath:creater/database/";
@@ -83,7 +83,7 @@ public abstract class BaseCreateService{
 	/**message存放目录**/
 	public static String MESSAGE_LOCAL = "Messages_zh_CN";
 	
-	public BaseCreateService(){
+	public BaseGeneratorService(){
 	}
 	
 	
@@ -197,6 +197,9 @@ public abstract class BaseCreateService{
 	 * @return
 	 */
 	public String getAbsolutePath(String absolutePathTemp,String type){
+		if (absolutePathTemp == null){
+			return null;
+		}
 		String absolutePath = null;
 		int index = -1;
 		if (absolutePathTemp.indexOf("build") > 0){
@@ -228,6 +231,9 @@ public abstract class BaseCreateService{
 	}
 	
 	public String getResourcesAbsolutePath(String absolutePathTemp){
+		if (absolutePathTemp == null){
+			return null;
+		}
 		String absolutePath = null;
 		int index = -1;
 		if (absolutePathTemp.indexOf("build") > 0){

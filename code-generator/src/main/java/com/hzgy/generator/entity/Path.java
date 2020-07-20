@@ -30,7 +30,7 @@ public class Path extends Entity{
 	/**
 	 * 生成器根目录
 	 */
-	private String creatorRootPath;
+	private String generatorRootPath;
 	
 	/**
 	 * 工程相对路径
@@ -92,12 +92,12 @@ public class Path extends Entity{
 		this.serviceRootPath = serviceRootPath;
 	}
 
-	public String getCreatorRootPath() {
-		return creatorRootPath;
+	public String getGeneratorRootPath() {
+		return generatorRootPath;
 	}
 
-	public void setCreatorRootPath(String creatorRootPath) {
-		this.creatorRootPath = creatorRootPath;
+	public void setGeneratorRootPath(String generatorRootPath) {
+		this.generatorRootPath = generatorRootPath;
 	}
 
 	public String getRelativePath() {

@@ -25,8 +25,9 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="creator/mybatis/mysql-table-sql-mapper.xml"/>
-        <mapper resource="creator/mybatis/mysql-column-sql-mapper.xml"/>
-    </mappers>	
+        <mapper resource="config/mybatis/mysql-database-sql-mapper.xml"/>
+        <mapper resource="config/mybatis/mysql-table-sql-mapper.xml"/>
+        <mapper resource="config/mybatis/mysql-column-sql-mapper.xml"/>
+    </mappers>
 </configuration>  
 

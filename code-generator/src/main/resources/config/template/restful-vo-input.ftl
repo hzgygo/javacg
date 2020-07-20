@@ -1,6 +1,6 @@
 package ${relativeProjectPath}.${entityPath}.entity;
 
-import ${com_jbt_core}.entity.BaseInput;
+import ${path_core}.entity.BaseInput;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.BindingResult;

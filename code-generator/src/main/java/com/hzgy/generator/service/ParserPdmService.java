@@ -31,10 +31,10 @@ public class ParserPdmService{
 	 * @return
 	 * @throws Exception
 	 */
-	public Pdm pdmParser(String creatorPath,String fileName,boolean isTablePerfix) throws Exception{
+	public Pdm pdmParser(String generatorPath,String fileName,boolean isTablePerfix) throws Exception{
 		String pdmFile = null;
 		//生成类，资源文件，mybatis 配置文件
-		pdmFile = creatorPath + File.separator + fileName;
+		pdmFile = generatorPath + File.separator + fileName;
 		//设置pdm文件路径
 		pdm.setPdmFilaPath(pdmFile);
 		logger.info("开始解析数据库设计文件:" + pdmFile);
