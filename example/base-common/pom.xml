@@ -56,7 +56,7 @@
         <mybatis-spring.version>1.3.0</mybatis-spring.version>
         <dom4j.version>1.6.1</dom4j.version>
         <slf4j.version>1.7.24</slf4j.version>
-        <jpa.version>1.11.12.RELEASE</jpa.version>
+        <jpa.version>1.11.23.RELEASE</jpa.version>
         <jedis.version>2.9.0</jedis.version>
         <eureka.version>2.0.0.RELEASE</eureka.version>
 
