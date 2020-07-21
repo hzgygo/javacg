@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import javax.annotation.PostConstruct;
-import com.jbt.core.util.SnowflakeIdWorker;
+import ${path_core}.util.SnowflakeIdWorker;
 
 import ${path_core}.service.BaseService;
 import ${path_db}.redis.RedisService;

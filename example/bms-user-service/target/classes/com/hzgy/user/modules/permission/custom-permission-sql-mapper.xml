@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.permission.IPermissionDao">
+
+	<cache-ref namespace="com.hzgy.user.modules.permission.IPermissionDao"/>
+
+	<!--
+		<include refid="permission_select"/>
+		<include refid="permission_select_count"/>
+		<include refid="permission_select_distinct"/>
+		<include refid="permission_select_id"/>
+		<include refid="permission_select_fields"/>
+		<include refid="permission_from"/>
+		<include refid="permission_where"/>
+		<include refid="permission_inner_all"/>
+		<include refid="permission_left_all"/>
+		<include refid="permission_left_rolePermitRelation"/>
+		<include refid="permission_where"/>
+		<include refid="permission_where_id"/>
+		<include refid="permission_where_ids"/>
+		<include refid="permission_where_reference_id"/>
+		<include refid="permission_order"/>
+		<include refid="permission_group"/>
+		<include refid="permission_limit"/>
+		<include refid="permission_update"/>
+		<include refid="permission_update_set"/>
+		<include refid="permission_update_set_null"/>
+		<include refid="permission_insert"/>
+		<include refid="permission_delete"/>
+		###########################################
+		### **where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and permission.id=#{id,jdbcType=BIGINT}</if>
+		<if test="code != null and code != ''">and permission.code=#{code,jdbcType=BIGINT}</if>
+		<if test="parentCode != null and parentCode != ''">and permission.parent_code=#{parentCode,jdbcType=BIGINT}</if>
+		<if test="name != null and name != ''">and permission.name=#{name,jdbcType=VARCHAR}</if>
+		<if test="parentName != null and parentName != ''">and permission.parent_name=#{parentName,jdbcType=VARCHAR}</if>
+		<if test="serviceCode != null and serviceCode != ''">and permission.service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+		<if test="urlPath != null and urlPath != ''">and permission.url_path=#{urlPath,jdbcType=VARCHAR}</if>
+		<if test="wildcardPath != null and wildcardPath != ''">and permission.wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+		<if test="modelName != null and modelName != ''">and permission.model_name=#{modelName,jdbcType=VARCHAR}</if>
+		<if test="entityName != null and entityName != ''">and permission.entity_name=#{entityName,jdbcType=VARCHAR}</if>
+		<if test="methodName != null and methodName != ''">and permission.method_name=#{methodName,jdbcType=VARCHAR}</if>
+		<if test="viewName != null and viewName != ''">and permission.view_name=#{viewName,jdbcType=VARCHAR}</if>
+		<if test="codeKey != null and codeKey != ''">and permission.code_key=#{codeKey,jdbcType=VARCHAR}</if>
+		<if test="treeLevel != null and treeLevel != ''">and permission.tree_level=#{treeLevel,jdbcType=INT}</if>
+		<if test="treePath != null and treePath != ''">and permission.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="authType != null and authType != ''">and permission.auth_type=#{authType,jdbcType=TINYINT}</if>
+		<if test="isShow != null and isShow != ''">and permission.is_show=#{isShow,jdbcType=TINYINT}</if>
+		<if test="isChildNode != null and isChildNode != ''">and permission.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="isDelete != null and isDelete != ''">and permission.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and permission.create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">and permission.modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">and permission.comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **update where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and id=#{id,jdbcType=BIGINT}</if>
+		<if test="code != null and code != ''">and code=#{code,jdbcType=BIGINT}</if>
+		<if test="parentCode != null and parentCode != ''">and parent_code=#{parentCode,jdbcType=BIGINT}</if>
+		<if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+		<if test="parentName != null and parentName != ''">and parent_name=#{parentName,jdbcType=VARCHAR}</if>
+		<if test="serviceCode != null and serviceCode != ''">and service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+		<if test="urlPath != null and urlPath != ''">and url_path=#{urlPath,jdbcType=VARCHAR}</if>
+		<if test="wildcardPath != null and wildcardPath != ''">and wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+		<if test="modelName != null and modelName != ''">and model_name=#{modelName,jdbcType=VARCHAR}</if>
+		<if test="entityName != null and entityName != ''">and entity_name=#{entityName,jdbcType=VARCHAR}</if>
+		<if test="methodName != null and methodName != ''">and method_name=#{methodName,jdbcType=VARCHAR}</if>
+		<if test="viewName != null and viewName != ''">and view_name=#{viewName,jdbcType=VARCHAR}</if>
+		<if test="codeKey != null and codeKey != ''">and code_key=#{codeKey,jdbcType=VARCHAR}</if>
+		<if test="treeLevel != null and treeLevel != ''">and tree_level=#{treeLevel,jdbcType=INT}</if>
+		<if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="authType != null and authType != ''">and auth_type=#{authType,jdbcType=TINYINT}</if>
+		<if test="isShow != null and isShow != ''">and is_show=#{isShow,jdbcType=TINYINT}</if>
+		<if test="isChildNode != null and isChildNode != ''">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="isDelete != null and isDelete != ''">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">and modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **set fields example**
+		###########################################
+		<if test="id != null and id != ''">,id=#{id,jdbcType=BIGINT}</if>
+		<if test="code != null and code != ''">,code=#{code,jdbcType=BIGINT}</if>
+		<if test="parentCode != null and parentCode != ''">,parent_code=#{parentCode,jdbcType=BIGINT}</if>
+		<if test="name != null and name != ''">,name=#{name,jdbcType=VARCHAR}</if>
+		<if test="parentName != null and parentName != ''">,parent_name=#{parentName,jdbcType=VARCHAR}</if>
+		<if test="serviceCode != null and serviceCode != ''">,service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+		<if test="urlPath != null and urlPath != ''">,url_path=#{urlPath,jdbcType=VARCHAR}</if>
+		<if test="wildcardPath != null and wildcardPath != ''">,wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+		<if test="modelName != null and modelName != ''">,model_name=#{modelName,jdbcType=VARCHAR}</if>
+		<if test="entityName != null and entityName != ''">,entity_name=#{entityName,jdbcType=VARCHAR}</if>
+		<if test="methodName != null and methodName != ''">,method_name=#{methodName,jdbcType=VARCHAR}</if>
+		<if test="viewName != null and viewName != ''">,view_name=#{viewName,jdbcType=VARCHAR}</if>
+		<if test="codeKey != null and codeKey != ''">,code_key=#{codeKey,jdbcType=VARCHAR}</if>
+		<if test="treeLevel != null and treeLevel != ''">,tree_level=#{treeLevel,jdbcType=INT}</if>
+		<if test="treePath != null and treePath != ''">,tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="authType != null and authType != ''">,auth_type=#{authType,jdbcType=TINYINT}</if>
+		<if test="isShow != null and isShow != ''">,is_show=#{isShow,jdbcType=TINYINT}</if>
+		<if test="isChildNode != null and isChildNode != ''">,is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">,modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **insert fields example**
+		###########################################
+		<if test="id != null and id != ''">,id</if>
+		<if test="code != null and code != ''">,code</if>
+		<if test="parentCode != null and parentCode != ''">,parent_code</if>
+		<if test="name != null and name != ''">,name</if>
+		<if test="parentName != null and parentName != ''">,parent_name</if>
+		<if test="serviceCode != null and serviceCode != ''">,service_code</if>
+		<if test="urlPath != null and urlPath != ''">,url_path</if>
+		<if test="wildcardPath != null and wildcardPath != ''">,wildcard_path</if>
+		<if test="modelName != null and modelName != ''">,model_name</if>
+		<if test="entityName != null and entityName != ''">,entity_name</if>
+		<if test="methodName != null and methodName != ''">,method_name</if>
+		<if test="viewName != null and viewName != ''">,view_name</if>
+		<if test="codeKey != null and codeKey != ''">,code_key</if>
+		<if test="treeLevel != null and treeLevel != ''">,tree_level</if>
+		<if test="treePath != null and treePath != ''">,tree_path</if>
+		<if test="authType != null and authType != ''">,auth_type</if>
+		<if test="isShow != null and isShow != ''">,is_show</if>
+		<if test="isChildNode != null and isChildNode != ''">,is_child_node</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete</if>
+		<if test="createTime != null and createTime != ''">,create_time</if>
+		<if test="modifyTime != null and modifyTime != ''">,modify_time</if>
+		<if test="comments != null and comments != ''">,comments</if>
+		###########################################
+		### **insert values criteria example**
+		###########################################	
+		<if test="id != null and id != ''">,#{id,jdbcType=BIGINT}</if>
+		<if test="code != null and code != ''">,#{code,jdbcType=BIGINT}</if>
+		<if test="parentCode != null and parentCode != ''">,#{parentCode,jdbcType=BIGINT}</if>
+		<if test="name != null and name != ''">,#{name,jdbcType=VARCHAR}</if>
+		<if test="parentName != null and parentName != ''">,#{parentName,jdbcType=VARCHAR}</if>
+		<if test="serviceCode != null and serviceCode != ''">,#{serviceCode,jdbcType=VARCHAR}</if>
+		<if test="urlPath != null and urlPath != ''">,#{urlPath,jdbcType=VARCHAR}</if>
+		<if test="wildcardPath != null and wildcardPath != ''">,#{wildcardPath,jdbcType=VARCHAR}</if>
+		<if test="modelName != null and modelName != ''">,#{modelName,jdbcType=VARCHAR}</if>
+		<if test="entityName != null and entityName != ''">,#{entityName,jdbcType=VARCHAR}</if>
+		<if test="methodName != null and methodName != ''">,#{methodName,jdbcType=VARCHAR}</if>
+		<if test="viewName != null and viewName != ''">,#{viewName,jdbcType=VARCHAR}</if>
+		<if test="codeKey != null and codeKey != ''">,#{codeKey,jdbcType=VARCHAR}</if>
+		<if test="treeLevel != null and treeLevel != ''">,#{treeLevel,jdbcType=INT}</if>
+		<if test="treePath != null and treePath != ''">,#{treePath,jdbcType=VARCHAR}</if>
+		<if test="authType != null and authType != ''">,#{authType,jdbcType=TINYINT}</if>
+		<if test="isShow != null and isShow != ''">,#{isShow,jdbcType=TINYINT}</if>
+		<if test="isChildNode != null and isChildNode != ''">,#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="isDelete != null and isDelete != ''">,#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">,#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **sql example**
+		###########################################	
+	<insert id="save" parameterMap="permission">
+		<include refid="permission_insert"/>
+	</insert>
+	
+	<update id="updateById" parameterMap="permission">
+		<include refid="permission_update"/>
+		<include refid="permission_update_set"/>
+		<include refid="permission_update_where_id"/>
+	</update>
+
+	<delete id="removeCriteria" parameterMap="permission">
+		<include refid="permission_delete"/>
+		<include refid="permission_update_where"/>
+	</delete>
+	
+	<delete id="removeById" parameterType="java.lang.Long">
+		<include refid="permission_delete"/>
+		<include refid="permission_update_where_id"/>
+	</delete>
+	
+	<select id="listCriteria" resultMap="permission" parameterMap="permission" useCache="true">
+		<include refid="permission_select"/>
+		<include refid="permission_select_fields"/>
+		<include refid="permission_from"/>
+		<include refid="permission_where"/>
+		<include refid="permission_order"/>
+		<include refid="permission_group"/>
+	</select>
+	
+	<select id="getOneById" resultMap="permission" parameterType="java.lang.Long" useCache="true">
+		<include refid="permission_select"/>
+		<include refid="permission_select_fields"/>
+		<include refid="permission_from"/>
+		<include refid="permission_where_id"/>
+	</select>		
+	-->
+</mapper>

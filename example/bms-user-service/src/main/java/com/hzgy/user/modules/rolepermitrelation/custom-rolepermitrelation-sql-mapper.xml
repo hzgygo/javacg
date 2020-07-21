@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.rolepermitrelation.IRolePermitRelationDao">
+
+	<cache-ref namespace="com.hzgy.user.modules.rolepermitrelation.IRolePermitRelationDao"/>
+
+	<!--
+		<include refid="rolePermitRelation_select"/>
+		<include refid="rolePermitRelation_select_count"/>
+		<include refid="rolePermitRelation_select_distinct"/>
+		<include refid="rolePermitRelation_select_id"/>
+		<include refid="rolePermitRelation_select_fields"/>
+		<include refid="rolePermitRelation_from"/>
+		<include refid="rolePermitRelation_where"/>
+		<include refid="rolePermitRelation_inner_all"/>
+		<include refid="rolePermitRelation_inner_role"/>
+		<include refid="rolePermitRelation_inner_permission"/>
+		<include refid="rolePermitRelation_left_all"/>
+		<include refid="rolePermitRelation_where"/>
+		<include refid="rolePermitRelation_where_id"/>
+		<include refid="rolePermitRelation_where_ids"/>
+		<include refid="rolePermitRelation_where_reference_id"/>
+		<include refid="rolePermitRelation_order"/>
+		<include refid="rolePermitRelation_group"/>
+		<include refid="rolePermitRelation_limit"/>
+		<include refid="rolePermitRelation_update"/>
+		<include refid="rolePermitRelation_update_set"/>
+		<include refid="rolePermitRelation_update_set_null"/>
+		<include refid="rolePermitRelation_insert"/>
+		<include refid="rolePermitRelation_delete"/>
+		###########################################
+		### **where criteria example**
+		###########################################
+		<if test="roleId != null and roleId != ''">and rolePermitRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+		<if test="permitId != null and permitId != ''">and rolePermitRelation.permit_id=#{permitId,jdbcType=BIGINT}</if>
+		###########################################
+		### **update where criteria example**
+		###########################################
+		<if test="roleId != null and roleId != ''">and role_id=#{roleId,jdbcType=BIGINT}</if>
+		<if test="permitId != null and permitId != ''">and permit_id=#{permitId,jdbcType=BIGINT}</if>
+		###########################################
+		### **set fields example**
+		###########################################
+		<if test="roleId != null and roleId != ''">,role_id=#{roleId,jdbcType=BIGINT}</if>
+		<if test="permitId != null and permitId != ''">,permit_id=#{permitId,jdbcType=BIGINT}</if>
+		###########################################
+		### **insert fields example**
+		###########################################
+		<if test="roleId != null and roleId != ''">,role_id</if>
+		<if test="permitId != null and permitId != ''">,permit_id</if>
+		###########################################
+		### **insert values criteria example**
+		###########################################	
+		<if test="roleId != null and roleId != ''">,#{roleId,jdbcType=BIGINT}</if>
+		<if test="permitId != null and permitId != ''">,#{permitId,jdbcType=BIGINT}</if>
+		###########################################
+		### **sql example**
+		###########################################	
+	<insert id="save" parameterMap="rolePermitRelation">
+		<include refid="rolePermitRelation_insert"/>
+	</insert>
+	
+
+	<delete id="removeCriteria" parameterMap="rolePermitRelation">
+		<include refid="rolePermitRelation_delete"/>
+		<include refid="rolePermitRelation_update_where"/>
+	</delete>
+	
+	
+	<select id="listCriteria" resultMap="rolePermitRelation" parameterMap="rolePermitRelation" useCache="true">
+		<include refid="rolePermitRelation_select"/>
+		<include refid="rolePermitRelation_select_fields"/>
+		<include refid="rolePermitRelation_from"/>
+		<include refid="rolePermitRelation_where"/>
+		<include refid="rolePermitRelation_order"/>
+		<include refid="rolePermitRelation_group"/>
+	</select>
+	
+	-->
+</mapper>

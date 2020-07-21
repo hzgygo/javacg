@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.organization.IOrganizationDao">
+
+	<cache-ref namespace="com.hzgy.user.modules.organization.IOrganizationDao"/>
+
+	<!--
+		<include refid="organization_select"/>
+		<include refid="organization_select_count"/>
+		<include refid="organization_select_distinct"/>
+		<include refid="organization_select_id"/>
+		<include refid="organization_select_fields"/>
+		<include refid="organization_from"/>
+		<include refid="organization_where"/>
+		<include refid="organization_inner_all"/>
+		<include refid="organization_left_all"/>
+		<include refid="organization_left_user"/>
+		<include refid="organization_where"/>
+		<include refid="organization_where_id"/>
+		<include refid="organization_where_ids"/>
+		<include refid="organization_where_reference_id"/>
+		<include refid="organization_order"/>
+		<include refid="organization_group"/>
+		<include refid="organization_limit"/>
+		<include refid="organization_update"/>
+		<include refid="organization_update_set"/>
+		<include refid="organization_update_set_null"/>
+		<include refid="organization_insert"/>
+		<include refid="organization_delete"/>
+		###########################################
+		### **where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and organization.id=#{id,jdbcType=BIGINT}</if>
+		<if test="parentId != null and parentId != ''">and organization.parent_id=#{parentId,jdbcType=BIGINT}</if>
+		<if test="orgCode != null and orgCode != ''">and organization.org_code=#{orgCode,jdbcType=VARCHAR}</if>
+		<if test="orgName != null and orgName != ''">and organization.org_name=#{orgName,jdbcType=VARCHAR}</if>
+		<if test="orgType != null and orgType != ''">and organization.org_type=#{orgType,jdbcType=TINYINT}</if>
+		<if test="email != null and email != ''">and organization.email=#{email,jdbcType=VARCHAR}</if>
+		<if test="mobilePhone != null and mobilePhone != ''">and organization.mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+		<if test="domainName != null and domainName != ''">and organization.domain_name=#{domainName,jdbcType=VARCHAR}</if>
+		<if test="logo != null and logo != ''">and organization.logo=#{logo,jdbcType=VARCHAR}</if>
+		<if test="isRealname != null and isRealname != ''">and organization.is_realname=#{isRealname,jdbcType=TINYINT}</if>
+		<if test="isForbidden != null and isForbidden != ''">and organization.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+		<if test="treeLevel != null and treeLevel != ''">and organization.tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+		<if test="treePath != null and treePath != ''">and organization.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="isChildNode != null and isChildNode != ''">and organization.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="blockchainAddress != null and blockchainAddress != ''">and organization.blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">and organization.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and organization.create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">and organization.modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">and organization.comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **update where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and id=#{id,jdbcType=BIGINT}</if>
+		<if test="parentId != null and parentId != ''">and parent_id=#{parentId,jdbcType=BIGINT}</if>
+		<if test="orgCode != null and orgCode != ''">and org_code=#{orgCode,jdbcType=VARCHAR}</if>
+		<if test="orgName != null and orgName != ''">and org_name=#{orgName,jdbcType=VARCHAR}</if>
+		<if test="orgType != null and orgType != ''">and org_type=#{orgType,jdbcType=TINYINT}</if>
+		<if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+		<if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+		<if test="domainName != null and domainName != ''">and domain_name=#{domainName,jdbcType=VARCHAR}</if>
+		<if test="logo != null and logo != ''">and logo=#{logo,jdbcType=VARCHAR}</if>
+		<if test="isRealname != null and isRealname != ''">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+		<if test="isForbidden != null and isForbidden != ''">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+		<if test="treeLevel != null and treeLevel != ''">and tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+		<if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="isChildNode != null and isChildNode != ''">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="blockchainAddress != null and blockchainAddress != ''">and blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">and modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **set fields example**
+		###########################################
+		<if test="id != null and id != ''">,id=#{id,jdbcType=BIGINT}</if>
+		<if test="parentId != null and parentId != ''">,parent_id=#{parentId,jdbcType=BIGINT}</if>
+		<if test="orgCode != null and orgCode != ''">,org_code=#{orgCode,jdbcType=VARCHAR}</if>
+		<if test="orgName != null and orgName != ''">,org_name=#{orgName,jdbcType=VARCHAR}</if>
+		<if test="orgType != null and orgType != ''">,org_type=#{orgType,jdbcType=TINYINT}</if>
+		<if test="email != null and email != ''">,email=#{email,jdbcType=VARCHAR}</if>
+		<if test="mobilePhone != null and mobilePhone != ''">,mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+		<if test="domainName != null and domainName != ''">,domain_name=#{domainName,jdbcType=VARCHAR}</if>
+		<if test="logo != null and logo != ''">,logo=#{logo,jdbcType=VARCHAR}</if>
+		<if test="isRealname != null and isRealname != ''">,is_realname=#{isRealname,jdbcType=TINYINT}</if>
+		<if test="isForbidden != null and isForbidden != ''">,is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+		<if test="treeLevel != null and treeLevel != ''">,tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+		<if test="treePath != null and treePath != ''">,tree_path=#{treePath,jdbcType=VARCHAR}</if>
+		<if test="isChildNode != null and isChildNode != ''">,is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="blockchainAddress != null and blockchainAddress != ''">,blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">,modify_time=#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **insert fields example**
+		###########################################
+		<if test="id != null and id != ''">,id</if>
+		<if test="parentId != null and parentId != ''">,parent_id</if>
+		<if test="orgCode != null and orgCode != ''">,org_code</if>
+		<if test="orgName != null and orgName != ''">,org_name</if>
+		<if test="orgType != null and orgType != ''">,org_type</if>
+		<if test="email != null and email != ''">,email</if>
+		<if test="mobilePhone != null and mobilePhone != ''">,mobile_phone</if>
+		<if test="domainName != null and domainName != ''">,domain_name</if>
+		<if test="logo != null and logo != ''">,logo</if>
+		<if test="isRealname != null and isRealname != ''">,is_realname</if>
+		<if test="isForbidden != null and isForbidden != ''">,is_forbidden</if>
+		<if test="treeLevel != null and treeLevel != ''">,tree_level</if>
+		<if test="treePath != null and treePath != ''">,tree_path</if>
+		<if test="isChildNode != null and isChildNode != ''">,is_child_node</if>
+		<if test="blockchainAddress != null and blockchainAddress != ''">,blockchain_address</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete</if>
+		<if test="createTime != null and createTime != ''">,create_time</if>
+		<if test="modifyTime != null and modifyTime != ''">,modify_time</if>
+		<if test="comments != null and comments != ''">,comments</if>
+		###########################################
+		### **insert values criteria example**
+		###########################################	
+		<if test="id != null and id != ''">,#{id,jdbcType=BIGINT}</if>
+		<if test="parentId != null and parentId != ''">,#{parentId,jdbcType=BIGINT}</if>
+		<if test="orgCode != null and orgCode != ''">,#{orgCode,jdbcType=VARCHAR}</if>
+		<if test="orgName != null and orgName != ''">,#{orgName,jdbcType=VARCHAR}</if>
+		<if test="orgType != null and orgType != ''">,#{orgType,jdbcType=TINYINT}</if>
+		<if test="email != null and email != ''">,#{email,jdbcType=VARCHAR}</if>
+		<if test="mobilePhone != null and mobilePhone != ''">,#{mobilePhone,jdbcType=VARCHAR}</if>
+		<if test="domainName != null and domainName != ''">,#{domainName,jdbcType=VARCHAR}</if>
+		<if test="logo != null and logo != ''">,#{logo,jdbcType=VARCHAR}</if>
+		<if test="isRealname != null and isRealname != ''">,#{isRealname,jdbcType=TINYINT}</if>
+		<if test="isForbidden != null and isForbidden != ''">,#{isForbidden,jdbcType=TINYINT}</if>
+		<if test="treeLevel != null and treeLevel != ''">,#{treeLevel,jdbcType=TINYINT}</if>
+		<if test="treePath != null and treePath != ''">,#{treePath,jdbcType=VARCHAR}</if>
+		<if test="isChildNode != null and isChildNode != ''">,#{isChildNode,jdbcType=TINYINT}</if>
+		<if test="blockchainAddress != null and blockchainAddress != ''">,#{blockchainAddress,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">,#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,#{createTime,jdbcType=TIMESTAMP}</if>
+		<if test="modifyTime != null and modifyTime != ''">,#{modifyTime,jdbcType=TIMESTAMP}</if>
+		<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+		###########################################
+		### **sql example**
+		###########################################	
+	<insert id="save" parameterMap="organization">
+		<include refid="organization_insert"/>
+	</insert>
+	
+	<update id="updateById" parameterMap="organization">
+		<include refid="organization_update"/>
+		<include refid="organization_update_set"/>
+		<include refid="organization_update_where_id"/>
+	</update>
+
+	<delete id="removeCriteria" parameterMap="organization">
+		<include refid="organization_delete"/>
+		<include refid="organization_update_where"/>
+	</delete>
+	
+	<delete id="removeById" parameterType="java.lang.Long">
+		<include refid="organization_delete"/>
+		<include refid="organization_update_where_id"/>
+	</delete>
+	
+	<select id="listCriteria" resultMap="organization" parameterMap="organization" useCache="true">
+		<include refid="organization_select"/>
+		<include refid="organization_select_fields"/>
+		<include refid="organization_from"/>
+		<include refid="organization_where"/>
+		<include refid="organization_order"/>
+		<include refid="organization_group"/>
+	</select>
+	
+	<select id="getOneById" resultMap="organization" parameterType="java.lang.Long" useCache="true">
+		<include refid="organization_select"/>
+		<include refid="organization_select_fields"/>
+		<include refid="organization_from"/>
+		<include refid="organization_where_id"/>
+	</select>		
+	-->
+</mapper>

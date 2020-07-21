@@ -120,7 +120,6 @@ public abstract class BaseGenerator {
 			servicePath.setServiceRootPath(serviceRootPath);
 			//转成文件路径
 			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
-			servicePath.setRelativePath(relativePath);
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);
@@ -167,7 +166,6 @@ public abstract class BaseGenerator {
 			servicePath.setServiceSimpleName(serviceSimpleName);
 			servicePath.setGeneratorRootPath(generatorRootPath);
 			servicePath.setServiceRootPath(serviceProjectPath);
-			servicePath.setRelativePath(relativePath);
 			//转成文件路径
 			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
 			servicePath.setResourcesPath(resourcesPath);
@@ -219,7 +217,7 @@ public abstract class BaseGenerator {
 			servicePath.setServiceName(serviceName);
 			servicePath.setGeneratorRootPath(generatorRootPath);
 			servicePath.setServiceRootPath(serviceProjectPath);
-			servicePath.setRelativePath(relativePath);
+			servicePath.setRelativePath(relativePath.replaceAll("\\.","/"));
 			servicePath.setResourcesPath(resourcesPath);
 			servicePath.setDependPackage(dependPackage);
 			servicePath.setJavaPath(javaPath);

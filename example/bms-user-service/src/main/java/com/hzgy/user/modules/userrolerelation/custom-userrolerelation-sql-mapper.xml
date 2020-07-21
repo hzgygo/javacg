@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.userrolerelation.IUserRoleRelationDao">
+
+	<cache-ref namespace="com.hzgy.user.modules.userrolerelation.IUserRoleRelationDao"/>
+
+	<!--
+		<include refid="userRoleRelation_select"/>
+		<include refid="userRoleRelation_select_count"/>
+		<include refid="userRoleRelation_select_distinct"/>
+		<include refid="userRoleRelation_select_id"/>
+		<include refid="userRoleRelation_select_fields"/>
+		<include refid="userRoleRelation_from"/>
+		<include refid="userRoleRelation_where"/>
+		<include refid="userRoleRelation_inner_all"/>
+		<include refid="userRoleRelation_inner_role"/>
+		<include refid="userRoleRelation_inner_user"/>
+		<include refid="userRoleRelation_left_all"/>
+		<include refid="userRoleRelation_where"/>
+		<include refid="userRoleRelation_where_id"/>
+		<include refid="userRoleRelation_where_ids"/>
+		<include refid="userRoleRelation_where_reference_id"/>
+		<include refid="userRoleRelation_order"/>
+		<include refid="userRoleRelation_group"/>
+		<include refid="userRoleRelation_limit"/>
+		<include refid="userRoleRelation_update"/>
+		<include refid="userRoleRelation_update_set"/>
+		<include refid="userRoleRelation_update_set_null"/>
+		<include refid="userRoleRelation_insert"/>
+		<include refid="userRoleRelation_delete"/>
+		###########################################
+		### **where criteria example**
+		###########################################
+		<if test="userId != null and userId != ''">and userRoleRelation.user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="roleId != null and roleId != ''">and userRoleRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+		###########################################
+		### **update where criteria example**
+		###########################################
+		<if test="userId != null and userId != ''">and user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="roleId != null and roleId != ''">and role_id=#{roleId,jdbcType=BIGINT}</if>
+		###########################################
+		### **set fields example**
+		###########################################
+		<if test="userId != null and userId != ''">,user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="roleId != null and roleId != ''">,role_id=#{roleId,jdbcType=BIGINT}</if>
+		###########################################
+		### **insert fields example**
+		###########################################
+		<if test="userId != null and userId != ''">,user_id</if>
+		<if test="roleId != null and roleId != ''">,role_id</if>
+		###########################################
+		### **insert values criteria example**
+		###########################################	
+		<if test="userId != null and userId != ''">,#{userId,jdbcType=BIGINT}</if>
+		<if test="roleId != null and roleId != ''">,#{roleId,jdbcType=BIGINT}</if>
+		###########################################
+		### **sql example**
+		###########################################	
+	<insert id="save" parameterMap="userRoleRelation">
+		<include refid="userRoleRelation_insert"/>
+	</insert>
+	
+
+	<delete id="removeCriteria" parameterMap="userRoleRelation">
+		<include refid="userRoleRelation_delete"/>
+		<include refid="userRoleRelation_update_where"/>
+	</delete>
+	
+	
+	<select id="listCriteria" resultMap="userRoleRelation" parameterMap="userRoleRelation" useCache="true">
+		<include refid="userRoleRelation_select"/>
+		<include refid="userRoleRelation_select_fields"/>
+		<include refid="userRoleRelation_from"/>
+		<include refid="userRoleRelation_where"/>
+		<include refid="userRoleRelation_order"/>
+		<include refid="userRoleRelation_group"/>
+	</select>
+	
+	-->
+</mapper>

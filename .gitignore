@@ -2,3 +2,11 @@ code-generator/target/
 .idea/
 *.iml
 /code-generator/src/main/resources/tmp/
+/example/base-common/common-client/target/
+/example/base-common/common-config/target/
+/example/base-common/common-core/target/
+/example/base-common/common-database/target/
+/example/base-common/common-interceptor/target/
+/example/bms-user-service/target/
+/example/fes-user-service/target/
+/example/bms-user-service/target/

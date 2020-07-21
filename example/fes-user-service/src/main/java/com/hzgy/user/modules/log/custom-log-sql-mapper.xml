@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.log.ILogDao">
+
+	<cache-ref namespace="com.hzgy.user.modules.log.ILogDao"/>
+
+	<!--
+		<include refid="log_select"/>
+		<include refid="log_select_count"/>
+		<include refid="log_select_distinct"/>
+		<include refid="log_select_id"/>
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+		<include refid="log_inner_all"/>
+		<include refid="log_left_all"/>
+		<include refid="log_where"/>
+		<include refid="log_where_id"/>
+		<include refid="log_where_ids"/>
+		<include refid="log_where_reference_id"/>
+		<include refid="log_order"/>
+		<include refid="log_group"/>
+		<include refid="log_limit"/>
+		<include refid="log_update"/>
+		<include refid="log_update_set"/>
+		<include refid="log_update_set_null"/>
+		<include refid="log_insert"/>
+		<include refid="log_delete"/>
+		###########################################
+		### **where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and log.id=#{id,jdbcType=BIGINT}</if>
+		<if test="userId != null and userId != ''">and log.user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="userName != null and userName != ''">and log.user_name=#{userName,jdbcType=VARCHAR}</if>
+		<if test="operateTime != null and operateTime != ''">and log.operate_time=#{operateTime,jdbcType=TIMESTAMP}</if>
+		<if test="logType != null and logType != ''">and log.log_type=#{logType,jdbcType=VARCHAR}</if>
+		<if test="content != null and content != ''">and log.content=#{content,jdbcType=VARCHAR}</if>
+		<if test="accessIp != null and accessIp != ''">and log.access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">and log.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and log.create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		###########################################
+		### **update where criteria example**
+		###########################################
+		<if test="id != null and id != ''">and id=#{id,jdbcType=BIGINT}</if>
+		<if test="userId != null and userId != ''">and user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="userName != null and userName != ''">and user_name=#{userName,jdbcType=VARCHAR}</if>
+		<if test="operateTime != null and operateTime != ''">and operate_time=#{operateTime,jdbcType=TIMESTAMP}</if>
+		<if test="logType != null and logType != ''">and log_type=#{logType,jdbcType=VARCHAR}</if>
+		<if test="content != null and content != ''">and content=#{content,jdbcType=VARCHAR}</if>
+		<if test="accessIp != null and accessIp != ''">and access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">and create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		###########################################
+		### **set fields example**
+		###########################################
+		<if test="id != null and id != ''">,id=#{id,jdbcType=BIGINT}</if>
+		<if test="userId != null and userId != ''">,user_id=#{userId,jdbcType=BIGINT}</if>
+		<if test="userName != null and userName != ''">,user_name=#{userName,jdbcType=VARCHAR}</if>
+		<if test="operateTime != null and operateTime != ''">,operate_time=#{operateTime,jdbcType=TIMESTAMP}</if>
+		<if test="logType != null and logType != ''">,log_type=#{logType,jdbcType=VARCHAR}</if>
+		<if test="content != null and content != ''">,content=#{content,jdbcType=VARCHAR}</if>
+		<if test="accessIp != null and accessIp != ''">,access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		###########################################
+		### **insert fields example**
+		###########################################
+		<if test="id != null and id != ''">,id</if>
+		<if test="userId != null and userId != ''">,user_id</if>
+		<if test="userName != null and userName != ''">,user_name</if>
+		<if test="operateTime != null and operateTime != ''">,operate_time</if>
+		<if test="logType != null and logType != ''">,log_type</if>
+		<if test="content != null and content != ''">,content</if>
+		<if test="accessIp != null and accessIp != ''">,access_ip</if>
+		<if test="isDelete != null and isDelete != ''">,is_delete</if>
+		<if test="createTime != null and createTime != ''">,create_time</if>
+		###########################################
+		### **insert values criteria example**
+		###########################################	
+		<if test="id != null and id != ''">,#{id,jdbcType=BIGINT}</if>
+		<if test="userId != null and userId != ''">,#{userId,jdbcType=BIGINT}</if>
+		<if test="userName != null and userName != ''">,#{userName,jdbcType=VARCHAR}</if>
+		<if test="operateTime != null and operateTime != ''">,#{operateTime,jdbcType=TIMESTAMP}</if>
+		<if test="logType != null and logType != ''">,#{logType,jdbcType=VARCHAR}</if>
+		<if test="content != null and content != ''">,#{content,jdbcType=VARCHAR}</if>
+		<if test="accessIp != null and accessIp != ''">,#{accessIp,jdbcType=VARCHAR}</if>
+		<if test="isDelete != null and isDelete != ''">,#{isDelete,jdbcType=TINYINT}</if>
+		<if test="createTime != null and createTime != ''">,#{createTime,jdbcType=TIMESTAMP}</if>
+		###########################################
+		### **sql example**
+		###########################################	
+	<insert id="save" parameterMap="log">
+		<include refid="log_insert"/>
+	</insert>
+	
+	<update id="updateById" parameterMap="log">
+		<include refid="log_update"/>
+		<include refid="log_update_set"/>
+		<include refid="log_update_where_id"/>
+	</update>
+
+	<delete id="removeCriteria" parameterMap="log">
+		<include refid="log_delete"/>
+		<include refid="log_update_where"/>
+	</delete>
+	
+	<delete id="removeById" parameterType="java.lang.Long">
+		<include refid="log_delete"/>
+		<include refid="log_update_where_id"/>
+	</delete>
+	
+	<select id="listCriteria" resultMap="log" parameterMap="log" useCache="true">
+		<include refid="log_select"/>
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+		<include refid="log_order"/>
+		<include refid="log_group"/>
+	</select>
+	
+	<select id="getOneById" resultMap="log" parameterType="java.lang.Long" useCache="true">
+		<include refid="log_select"/>
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where_id"/>
+	</select>		
+	-->
+</mapper>

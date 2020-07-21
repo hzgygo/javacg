@@ -1,0 +1,2551 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hzgy.user.modules.log.ILogDao">
+
+	<cache type="com.hzgy.db.mybatis.cache.MybatisRedisCache">
+		<property name="eviction" value="LRU" />
+		<property name="flushInterval" value="6000000" />
+		<property name="size" value="1024" />
+		<property name="readOnly" value="false" />
+	</cache>
+
+	<parameterMap id="role" type="role" />
+	<resultMap id="role" type="role">
+		<id property="id" column="role_id" javaType="java.lang.Long" />
+		<result property="orgId" column="role_orgId" javaType="java.lang.Long" />
+		<result property="name" column="role_name" javaType="java.lang.String" />
+		<result property="code" column="role_code" javaType="java.lang.String" />
+		<result property="isForbidden" column="role_isForbidden" javaType="java.lang.Integer" />
+		<result property="isDelete" column="role_isDelete" javaType="java.lang.Integer" />
+		<result property="createTime" column="role_createTime" javaType="java.lang.String" />
+		<result property="modifyTime" column="role_modifyTime" javaType="java.lang.String" />
+		<result property="comments" column="role_comments" javaType="java.lang.String" />
+	</resultMap>
+
+	<resultMap id="roleRolePermitRelationLeftResult" type="role" extends="role">
+		<collection property="listRolePermitRelation" resultMap="rolePermitRelation"/>
+	</resultMap>
+	<resultMap id="roleUserRoleRelationLeftResult" type="role" extends="role">
+		<collection property="listUserRoleRelation" resultMap="userRoleRelation"/>
+	</resultMap>
+
+	<sql id="role_select">
+		select
+	</sql>
+	<sql id="role_select_count">
+		select count(*)
+	</sql>
+	<sql id="role_select_id">
+		select role.id
+	</sql>
+	<sql id="role_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="role_select_fields">
+        select
+			role.id role_id,
+			role.org_id role_orgId,
+			role.name role_name,
+			role.code role_code,
+			role.is_forbidden role_isForbidden,
+			role.is_delete role_isDelete,
+			role.create_time role_createTime,
+			role.modify_time role_modifyTime,
+			role.comments role_comments
+	</sql>
+
+    <sql id="role_select_distinct_fields">
+        select distinct
+            role.id role_id,
+            role.org_id role_orgId,
+            role.name role_name,
+            role.code role_code,
+            role.is_forbidden role_isForbidden,
+            role.is_delete role_isDelete,
+            role.create_time role_createTime,
+            role.modify_time role_modifyTime,
+            role.comments role_comments
+    </sql>
+
+	<sql id="role_select_ref_fields">
+		role.id role_id,
+		role.org_id role_orgId,
+		role.name role_name,
+		role.code role_code,
+		role.is_forbidden role_isForbidden,
+		role.is_delete role_isDelete,
+		role.create_time role_createTime,
+		role.modify_time role_modifyTime,
+		role.comments role_comments
+	</sql>
+
+	<sql id="role_from">
+		from role role
+	</sql>
+
+	<sql id="role_inner_all">
+	</sql>
+
+
+	<sql id="role_left_all">
+		left join role_permit_relation rolePermitRelation on rolePermitRelation.role_id=role.id
+		left join user_role_relation userRoleRelation on userRoleRelation.role_id=role.id
+	</sql>
+
+	<sql id="role_left_rolePermitRelation">
+		left join role_permit_relation rolePermitRelation on rolePermitRelation.role_id=role.id
+	</sql>
+	<sql id="role_left_userRoleRelation">
+		left join user_role_relation userRoleRelation on userRoleRelation.role_id=role.id
+	</sql>
+
+	<sql id="role_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="id != null">and role.id=#{id,jdbcType=BIGINT}</if>
+                <if test="idOperator != null and idExpression != null">and role.id ${idOperator} ${idExpression}</if>
+                <if test="orgId != null">and role.org_id=#{orgId,jdbcType=BIGINT}</if>
+                <if test="orgIdOperator != null and orgIdExpression != null">and role.org_id ${orgIdOperator} ${orgIdExpression}</if>
+				<if test="name != null and name != ''">and role.name=#{name,jdbcType=VARCHAR}</if>
+                <if test="nameAsLike != null and nameAsLike != ''">and role.name like concat('%',#{nameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="code != null and code != ''">and role.code=#{code,jdbcType=VARCHAR}</if>
+                <if test="codeAsLike != null and codeAsLike != ''">and role.code like concat('%',#{codeAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="isForbidden != null">and role.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isForbiddenOperator != null and isForbiddenExpression != null">and role.is_forbidden ${isForbiddenOperator} ${isForbiddenExpression}</if>
+                <if test="isDelete != null">and role.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="isDeleteOperator != null and isDeleteExpression != null">and role.is_delete ${isDeleteOperator} ${isDeleteExpression}</if>
+                <if test="createTime != null">and role.create_time=#{createTime,jdbcType=TIME}</if>
+                <if test="createTimeOperator != null and createTimeExpression != null">and role.create_time ${createTimeOperator} ${createTimeExpression}</if>
+                <if test="modifyTime != null">and role.modify_time=#{modifyTime,jdbcType=TIME}</if>
+                <if test="modifyTimeOperator != null and modifyTimeExpression != null">and role.modify_time ${modifyTimeOperator} ${modifyTimeExpression}</if>
+				<if test="comments != null and comments != ''">and role.comments=#{comments,jdbcType=VARCHAR}</if>
+                <if test="commentsAsLike != null and commentsAsLike != ''">and role.comments like concat('%',#{commentsAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="role_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="code != null and code != ''">and code=#{code,jdbcType=VARCHAR}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="role_where_fields">
+        <if test="id != null">and role.id=#{id,jdbcType=BIGINT}</if>
+        <if test="orgId != null">and role.org_id=#{orgId,jdbcType=BIGINT}</if>
+        <if test="name != null and name != ''">and role.name=#{name,jdbcType=VARCHAR}</if>
+        <if test="code != null and code != ''">and role.code=#{code,jdbcType=VARCHAR}</if>
+        <if test="isForbidden != null">and role.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+        <if test="isDelete != null">and role.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+        <if test="createTime != null">and role.create_time=#{createTime,jdbcType=TIME}</if>
+        <if test="modifyTime != null">and role.modify_time=#{modifyTime,jdbcType=TIME}</if>
+        <if test="comments != null and comments != ''">and role.comments=#{comments,jdbcType=VARCHAR}</if>
+	</sql>
+
+	<sql id="role_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+				<if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+				<if test="code != null and code != ''">and code=#{code,jdbcType=VARCHAR}</if>
+				<if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+				<if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+				<if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+				<if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+				<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="role_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="code != null and code != ''">and code=#{code,jdbcType=VARCHAR}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="role_where_id">
+		where role.id=#{id,jdbcType=BIGINT}
+	</sql>
+
+    <sql id="role_delete_where_id">
+        where id=#{id,jdbcType=BIGINT}
+    </sql>
+
+	<sql id="role_update_where_id">
+		where id=#{id,jdbcType=BIGINT}
+	</sql>
+
+	<sql id="role_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="orgId != null">and role.org_id=#{orgId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="role_where_ids">
+		<if test="ids != null">
+			where role.id in
+			<trim prefixOverrides=",">
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")"> 
+            	${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="role_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				role.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				role.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="role_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				role.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="role_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="role_update">
+		update role
+	</sql>
+
+	<sql id="role_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=#{id,jdbcType=BIGINT}</if>
+                <if test="orgId != null">,org_id=#{orgId,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">,name=#{name,jdbcType=VARCHAR}</if>
+				<if test="code != null and code != ''">,code=#{code,jdbcType=VARCHAR}</if>
+                <if test="isForbidden != null">,is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="createTime != null">,create_time=#{createTime,jdbcType=TIME}</if>
+				,modify_time=now()
+				<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="role_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=NULL</if>
+                <if test="orgId != null">,org_id=NULL</if>
+				<if test="name != null and  name != null">,name=NULL</if>
+				<if test="code != null and  code != null">,code=NULL</if>
+                <if test="isForbidden != null">,is_forbidden=NULL</if>
+                <if test="isDelete != null">,is_delete=NULL</if>
+                <if test="createTime != null">,create_time=NULL</if>
+                <if test="modifyTime != null">,modify_time=NULL</if>
+				<if test="comments != null and  comments != null">,comments=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="role_insert">
+		insert into role
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,id</if>
+                <if test="orgId != null">,org_id</if>
+                <if test="name != null and name != ''">,name</if>
+                <if test="code != null and code != ''">,code</if>
+                <if test="isForbidden != null">,is_forbidden</if>
+                <if test="isDelete != null">,is_delete</if>
+                ,create_time
+                ,modify_time
+                <if test="comments != null and comments != ''">,comments</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,#{id,jdbcType=BIGINT}</if>
+                <if test="orgId != null">,#{orgId,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">,#{name,jdbcType=VARCHAR}</if>
+				<if test="code != null and code != ''">,#{code,jdbcType=VARCHAR}</if>
+                <if test="isForbidden != null">,#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,#{isDelete,jdbcType=TINYINT}</if>
+                ,now()
+				,now()
+				<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+	</sql>
+
+	<sql id="role_delete">
+		delete from role
+	</sql>
+
+	<parameterMap id="userRoleRelation" type="userRoleRelation" />
+	<resultMap id="userRoleRelation" type="userRoleRelation">
+		<result property="userId" column="userRoleRelation_userId" javaType="java.lang.Long" />
+		<result property="roleId" column="userRoleRelation_roleId" javaType="java.lang.Long" />
+	</resultMap>
+
+	<resultMap id="userRoleRelationRoleInnerResult" type="userRoleRelation" extends="userRoleRelation">
+		<association property="role" resultMap="role"/>
+	</resultMap>
+	<resultMap id="userRoleRelationUserInnerResult" type="userRoleRelation" extends="userRoleRelation">
+		<association property="user" resultMap="user"/>
+	</resultMap>
+
+	<sql id="userRoleRelation_select">
+		select
+	</sql>
+	<sql id="userRoleRelation_select_count">
+		select count(*)
+	</sql>
+	<sql id="userRoleRelation_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="userRoleRelation_select_fields">
+        select
+			userRoleRelation.user_id userRoleRelation_userId,
+			userRoleRelation.role_id userRoleRelation_roleId
+	</sql>
+
+    <sql id="userRoleRelation_select_distinct_fields">
+        select distinct
+            userRoleRelation.user_id userRoleRelation_userId,
+            userRoleRelation.role_id userRoleRelation_roleId
+    </sql>
+
+	<sql id="userRoleRelation_select_ref_fields">
+		userRoleRelation.user_id userRoleRelation_userId,
+		userRoleRelation.role_id userRoleRelation_roleId
+	</sql>
+
+	<sql id="userRoleRelation_from">
+		from user_role_relation userRoleRelation
+	</sql>
+
+	<sql id="userRoleRelation_inner_all">
+		inner join role role on role.id=userRoleRelation.role_id
+		inner join user user on user.id=userRoleRelation.user_id
+	</sql>
+
+	<sql id="userRoleRelation_inner_role">
+		inner join role role on role.id=userRoleRelation.role_id
+	</sql>
+	<sql id="userRoleRelation_inner_user">
+		inner join user user on user.id=userRoleRelation.user_id
+	</sql>
+
+	<sql id="userRoleRelation_left_all">
+	</sql>
+
+
+	<sql id="userRoleRelation_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="userId != null">and userRoleRelation.user_id=#{userId,jdbcType=BIGINT}</if>
+                <if test="userIdOperator != null and userIdExpression != null">and userRoleRelation.user_id ${userIdOperator} ${userIdExpression}</if>
+                <if test="roleId != null">and userRoleRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+                <if test="roleIdOperator != null and roleIdExpression != null">and userRoleRelation.role_id ${roleIdOperator} ${roleIdExpression}</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="userRoleRelation_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+                    <if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="userRoleRelation_where_fields">
+        <if test="userId != null">and userRoleRelation.user_id=#{userId,jdbcType=BIGINT}</if>
+        <if test="roleId != null">and userRoleRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+	</sql>
+
+	<sql id="userRoleRelation_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+				<if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="userRoleRelation_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+                    <if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<sql id="userRoleRelation_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="userId != null">and userRoleRelation.user_id=#{userId,jdbcType=BIGINT}</if>
+                <if test="roleId != null">and userRoleRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<sql id="userRoleRelation_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				userRoleRelation.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				userRoleRelation.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="userRoleRelation_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				userRoleRelation.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="userRoleRelation_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="userRoleRelation_update">
+		update user_role_relation
+	</sql>
+
+	<sql id="userRoleRelation_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="userId != null">,user_id=#{userId,jdbcType=BIGINT}</if>
+                <if test="roleId != null">,role_id=#{roleId,jdbcType=BIGINT}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="userRoleRelation_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="userId != null">,user_id=NULL</if>
+                <if test="roleId != null">,role_id=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="userRoleRelation_insert">
+		insert into user_role_relation
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="userId != null">,user_id</if>
+                <if test="roleId != null">,role_id</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="userId != null">,#{userId,jdbcType=BIGINT}</if>
+                <if test="roleId != null">,#{roleId,jdbcType=BIGINT}</if>
+			</trim>
+	</sql>
+
+	<sql id="userRoleRelation_delete">
+		delete from user_role_relation
+	</sql>
+
+	<parameterMap id="user" type="user" />
+	<resultMap id="user" type="user">
+		<id property="id" column="user_id" javaType="java.lang.Long" />
+		<result property="orgId" column="user_orgId" javaType="java.lang.Long" />
+		<result property="account" column="user_account" javaType="java.lang.String" />
+		<result property="phoneAccount" column="user_phoneAccount" javaType="java.lang.String" />
+		<result property="emailAccount" column="user_emailAccount" javaType="java.lang.String" />
+		<result property="userCode" column="user_userCode" javaType="java.lang.String" />
+		<result property="password" column="user_password" javaType="java.lang.String" />
+		<result property="salt" column="user_salt" javaType="java.lang.String" />
+		<result property="userType" column="user_userType" javaType="java.lang.Integer" />
+		<result property="isAdmin" column="user_isAdmin" javaType="java.lang.Integer" />
+		<result property="name" column="user_name" javaType="java.lang.String" />
+		<result property="mobilePhone" column="user_mobilePhone" javaType="java.lang.String" />
+		<result property="email" column="user_email" javaType="java.lang.String" />
+		<result property="certSn" column="user_certSn" javaType="java.lang.String" />
+		<result property="issuerDn" column="user_issuerDn" javaType="java.lang.String" />
+		<result property="bcaId" column="user_bcaId" javaType="java.lang.Long" />
+		<result property="bcaAddress" column="user_bcaAddress" javaType="java.lang.String" />
+		<result property="bcaOpenTime" column="user_bcaOpenTime" javaType="java.lang.String" />
+		<result property="isOpenBlockAccount" column="user_isOpenBlockAccount" javaType="java.lang.Integer" />
+		<result property="isRealname" column="user_isRealname" javaType="java.lang.Integer" />
+		<result property="isForbidden" column="user_isForbidden" javaType="java.lang.Integer" />
+		<result property="isDelete" column="user_isDelete" javaType="java.lang.Integer" />
+		<result property="realnameTime" column="user_realnameTime" javaType="java.lang.String" />
+		<result property="createTime" column="user_createTime" javaType="java.lang.String" />
+		<result property="modifyTime" column="user_modifyTime" javaType="java.lang.String" />
+		<result property="comments" column="user_comments" javaType="java.lang.String" />
+	</resultMap>
+
+	<resultMap id="userUserRoleRelationLeftResult" type="user" extends="user">
+		<collection property="listUserRoleRelation" resultMap="userRoleRelation"/>
+	</resultMap>
+	<resultMap id="userOrganizationInnerResult" type="user" extends="user">
+		<association property="organization" resultMap="organization"/>
+	</resultMap>
+
+	<sql id="user_select">
+		select
+	</sql>
+	<sql id="user_select_count">
+		select count(*)
+	</sql>
+	<sql id="user_select_id">
+		select user.id
+	</sql>
+	<sql id="user_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="user_select_fields">
+        select
+			user.id user_id,
+			user.org_id user_orgId,
+			user.account user_account,
+			user.phone_account user_phoneAccount,
+			user.email_account user_emailAccount,
+			user.user_code user_userCode,
+			user.password user_password,
+			user.salt user_salt,
+			user.user_type user_userType,
+			user.is_admin user_isAdmin,
+			user.name user_name,
+			user.mobile_phone user_mobilePhone,
+			user.email user_email,
+			user.cert_sn user_certSn,
+			user.issuer_dn user_issuerDn,
+			user.bca_id user_bcaId,
+			user.bca_address user_bcaAddress,
+			user.bca_open_time user_bcaOpenTime,
+			user.is_open_block_account user_isOpenBlockAccount,
+			user.is_realname user_isRealname,
+			user.is_forbidden user_isForbidden,
+			user.is_delete user_isDelete,
+			user.realname_time user_realnameTime,
+			user.create_time user_createTime,
+			user.modify_time user_modifyTime,
+			user.comments user_comments
+	</sql>
+
+    <sql id="user_select_distinct_fields">
+        select distinct
+            user.id user_id,
+            user.org_id user_orgId,
+            user.account user_account,
+            user.phone_account user_phoneAccount,
+            user.email_account user_emailAccount,
+            user.user_code user_userCode,
+            user.password user_password,
+            user.salt user_salt,
+            user.user_type user_userType,
+            user.is_admin user_isAdmin,
+            user.name user_name,
+            user.mobile_phone user_mobilePhone,
+            user.email user_email,
+            user.cert_sn user_certSn,
+            user.issuer_dn user_issuerDn,
+            user.bca_id user_bcaId,
+            user.bca_address user_bcaAddress,
+            user.bca_open_time user_bcaOpenTime,
+            user.is_open_block_account user_isOpenBlockAccount,
+            user.is_realname user_isRealname,
+            user.is_forbidden user_isForbidden,
+            user.is_delete user_isDelete,
+            user.realname_time user_realnameTime,
+            user.create_time user_createTime,
+            user.modify_time user_modifyTime,
+            user.comments user_comments
+    </sql>
+
+	<sql id="user_select_ref_fields">
+		user.id user_id,
+		user.org_id user_orgId,
+		user.account user_account,
+		user.phone_account user_phoneAccount,
+		user.email_account user_emailAccount,
+		user.user_code user_userCode,
+		user.password user_password,
+		user.salt user_salt,
+		user.user_type user_userType,
+		user.is_admin user_isAdmin,
+		user.name user_name,
+		user.mobile_phone user_mobilePhone,
+		user.email user_email,
+		user.cert_sn user_certSn,
+		user.issuer_dn user_issuerDn,
+		user.bca_id user_bcaId,
+		user.bca_address user_bcaAddress,
+		user.bca_open_time user_bcaOpenTime,
+		user.is_open_block_account user_isOpenBlockAccount,
+		user.is_realname user_isRealname,
+		user.is_forbidden user_isForbidden,
+		user.is_delete user_isDelete,
+		user.realname_time user_realnameTime,
+		user.create_time user_createTime,
+		user.modify_time user_modifyTime,
+		user.comments user_comments
+	</sql>
+
+	<sql id="user_from">
+		from user user
+	</sql>
+
+	<sql id="user_inner_all">
+		inner join organization organization on organization.id=user.org_id
+	</sql>
+
+	<sql id="user_inner_organization">
+		inner join organization organization on organization.id=user.org_id
+	</sql>
+
+	<sql id="user_left_all">
+		left join user_role_relation userRoleRelation on userRoleRelation.user_id=user.id
+	</sql>
+
+	<sql id="user_left_userRoleRelation">
+		left join user_role_relation userRoleRelation on userRoleRelation.user_id=user.id
+	</sql>
+
+	<sql id="user_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="id != null">and user.id=#{id,jdbcType=BIGINT}</if>
+                <if test="idOperator != null and idExpression != null">and user.id ${idOperator} ${idExpression}</if>
+                <if test="orgId != null">and user.org_id=#{orgId,jdbcType=BIGINT}</if>
+                <if test="orgIdOperator != null and orgIdExpression != null">and user.org_id ${orgIdOperator} ${orgIdExpression}</if>
+				<if test="account != null and account != ''">and user.account=#{account,jdbcType=VARCHAR}</if>
+                <if test="accountAsLike != null and accountAsLike != ''">and user.account like concat('%',#{accountAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="phoneAccount != null and phoneAccount != ''">and user.phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+                <if test="phoneAccountAsLike != null and phoneAccountAsLike != ''">and user.phone_account like concat('%',#{phoneAccountAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="emailAccount != null and emailAccount != ''">and user.email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+                <if test="emailAccountAsLike != null and emailAccountAsLike != ''">and user.email_account like concat('%',#{emailAccountAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="userCode != null and userCode != ''">and user.user_code=#{userCode,jdbcType=VARCHAR}</if>
+                <if test="userCodeAsLike != null and userCodeAsLike != ''">and user.user_code like concat('%',#{userCodeAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="password != null and password != ''">and user.password=#{password,jdbcType=VARCHAR}</if>
+                <if test="passwordAsLike != null and passwordAsLike != ''">and user.password like concat('%',#{passwordAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="salt != null and salt != ''">and user.salt=#{salt,jdbcType=VARCHAR}</if>
+                <if test="saltAsLike != null and saltAsLike != ''">and user.salt like concat('%',#{saltAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="userType != null">and user.user_type=#{userType,jdbcType=TINYINT}</if>
+                <if test="userTypeOperator != null and userTypeExpression != null">and user.user_type ${userTypeOperator} ${userTypeExpression}</if>
+                <if test="isAdmin != null">and user.is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+                <if test="isAdminOperator != null and isAdminExpression != null">and user.is_admin ${isAdminOperator} ${isAdminExpression}</if>
+				<if test="name != null and name != ''">and user.name=#{name,jdbcType=VARCHAR}</if>
+                <if test="nameAsLike != null and nameAsLike != ''">and user.name like concat('%',#{nameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="mobilePhone != null and mobilePhone != ''">and user.mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                <if test="mobilePhoneAsLike != null and mobilePhoneAsLike != ''">and user.mobile_phone like concat('%',#{mobilePhoneAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="email != null and email != ''">and user.email=#{email,jdbcType=VARCHAR}</if>
+                <if test="emailAsLike != null and emailAsLike != ''">and user.email like concat('%',#{emailAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="certSn != null and certSn != ''">and user.cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+                <if test="certSnAsLike != null and certSnAsLike != ''">and user.cert_sn like concat('%',#{certSnAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="issuerDn != null and issuerDn != ''">and user.issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+                <if test="issuerDnAsLike != null and issuerDnAsLike != ''">and user.issuer_dn like concat('%',#{issuerDnAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="bcaId != null">and user.bca_id=#{bcaId,jdbcType=BIGINT}</if>
+                <if test="bcaIdOperator != null and bcaIdExpression != null">and user.bca_id ${bcaIdOperator} ${bcaIdExpression}</if>
+				<if test="bcaAddress != null and bcaAddress != ''">and user.bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+                <if test="bcaAddressAsLike != null and bcaAddressAsLike != ''">and user.bca_address like concat('%',#{bcaAddressAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="bcaOpenTime != null">and user.bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+                <if test="bcaOpenTimeOperator != null and bcaOpenTimeExpression != null">and user.bca_open_time ${bcaOpenTimeOperator} ${bcaOpenTimeExpression}</if>
+                <if test="isOpenBlockAccount != null">and user.is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+                <if test="isOpenBlockAccountOperator != null and isOpenBlockAccountExpression != null">and user.is_open_block_account ${isOpenBlockAccountOperator} ${isOpenBlockAccountExpression}</if>
+                <if test="isRealname != null">and user.is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isRealnameOperator != null and isRealnameExpression != null">and user.is_realname ${isRealnameOperator} ${isRealnameExpression}</if>
+                <if test="isForbidden != null">and user.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isForbiddenOperator != null and isForbiddenExpression != null">and user.is_forbidden ${isForbiddenOperator} ${isForbiddenExpression}</if>
+                <if test="isDelete != null">and user.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="isDeleteOperator != null and isDeleteExpression != null">and user.is_delete ${isDeleteOperator} ${isDeleteExpression}</if>
+                <if test="realnameTime != null">and user.realname_time=#{realnameTime,jdbcType=TIME}</if>
+                <if test="realnameTimeOperator != null and realnameTimeExpression != null">and user.realname_time ${realnameTimeOperator} ${realnameTimeExpression}</if>
+                <if test="createTime != null">and user.create_time=#{createTime,jdbcType=TIME}</if>
+                <if test="createTimeOperator != null and createTimeExpression != null">and user.create_time ${createTimeOperator} ${createTimeExpression}</if>
+                <if test="modifyTime != null">and user.modify_time=#{modifyTime,jdbcType=TIME}</if>
+                <if test="modifyTimeOperator != null and modifyTimeExpression != null">and user.modify_time ${modifyTimeOperator} ${modifyTimeExpression}</if>
+				<if test="comments != null and comments != ''">and user.comments=#{comments,jdbcType=VARCHAR}</if>
+                <if test="commentsAsLike != null and commentsAsLike != ''">and user.comments like concat('%',#{commentsAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="user_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+                    <if test="account != null and account != ''">and account=#{account,jdbcType=VARCHAR}</if>
+                    <if test="phoneAccount != null and phoneAccount != ''">and phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+                    <if test="emailAccount != null and emailAccount != ''">and email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+                    <if test="userCode != null and userCode != ''">and user_code=#{userCode,jdbcType=VARCHAR}</if>
+                    <if test="password != null and password != ''">and password=#{password,jdbcType=VARCHAR}</if>
+                    <if test="salt != null and salt != ''">and salt=#{salt,jdbcType=VARCHAR}</if>
+                    <if test="userType != null">and user_type=#{userType,jdbcType=TINYINT}</if>
+                    <if test="isAdmin != null">and is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                    <if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+                    <if test="certSn != null and certSn != ''">and cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+                    <if test="issuerDn != null and issuerDn != ''">and issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+                    <if test="bcaId != null">and bca_id=#{bcaId,jdbcType=BIGINT}</if>
+                    <if test="bcaAddress != null and bcaAddress != ''">and bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+                    <if test="bcaOpenTime != null">and bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+                    <if test="isOpenBlockAccount != null">and is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+                    <if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="realnameTime != null">and realname_time=#{realnameTime,jdbcType=TIME}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="user_where_fields">
+        <if test="id != null">and user.id=#{id,jdbcType=BIGINT}</if>
+        <if test="orgId != null">and user.org_id=#{orgId,jdbcType=BIGINT}</if>
+        <if test="account != null and account != ''">and user.account=#{account,jdbcType=VARCHAR}</if>
+        <if test="phoneAccount != null and phoneAccount != ''">and user.phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+        <if test="emailAccount != null and emailAccount != ''">and user.email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+        <if test="userCode != null and userCode != ''">and user.user_code=#{userCode,jdbcType=VARCHAR}</if>
+        <if test="password != null and password != ''">and user.password=#{password,jdbcType=VARCHAR}</if>
+        <if test="salt != null and salt != ''">and user.salt=#{salt,jdbcType=VARCHAR}</if>
+        <if test="userType != null">and user.user_type=#{userType,jdbcType=TINYINT}</if>
+        <if test="isAdmin != null">and user.is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+        <if test="name != null and name != ''">and user.name=#{name,jdbcType=VARCHAR}</if>
+        <if test="mobilePhone != null and mobilePhone != ''">and user.mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+        <if test="email != null and email != ''">and user.email=#{email,jdbcType=VARCHAR}</if>
+        <if test="certSn != null and certSn != ''">and user.cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+        <if test="issuerDn != null and issuerDn != ''">and user.issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+        <if test="bcaId != null">and user.bca_id=#{bcaId,jdbcType=BIGINT}</if>
+        <if test="bcaAddress != null and bcaAddress != ''">and user.bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+        <if test="bcaOpenTime != null">and user.bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+        <if test="isOpenBlockAccount != null">and user.is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+        <if test="isRealname != null">and user.is_realname=#{isRealname,jdbcType=TINYINT}</if>
+        <if test="isForbidden != null">and user.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+        <if test="isDelete != null">and user.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+        <if test="realnameTime != null">and user.realname_time=#{realnameTime,jdbcType=TIME}</if>
+        <if test="createTime != null">and user.create_time=#{createTime,jdbcType=TIME}</if>
+        <if test="modifyTime != null">and user.modify_time=#{modifyTime,jdbcType=TIME}</if>
+        <if test="comments != null and comments != ''">and user.comments=#{comments,jdbcType=VARCHAR}</if>
+	</sql>
+
+	<sql id="user_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+				<if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+				<if test="account != null and account != ''">and account=#{account,jdbcType=VARCHAR}</if>
+				<if test="phoneAccount != null and phoneAccount != ''">and phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+				<if test="emailAccount != null and emailAccount != ''">and email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+				<if test="userCode != null and userCode != ''">and user_code=#{userCode,jdbcType=VARCHAR}</if>
+				<if test="password != null and password != ''">and password=#{password,jdbcType=VARCHAR}</if>
+				<if test="salt != null and salt != ''">and salt=#{salt,jdbcType=VARCHAR}</if>
+				<if test="userType != null">and user_type=#{userType,jdbcType=TINYINT}</if>
+				<if test="isAdmin != null">and is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+				<if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+				<if test="certSn != null and certSn != ''">and cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+				<if test="issuerDn != null and issuerDn != ''">and issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+				<if test="bcaId != null">and bca_id=#{bcaId,jdbcType=BIGINT}</if>
+				<if test="bcaAddress != null and bcaAddress != ''">and bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+				<if test="bcaOpenTime != null">and bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+				<if test="isOpenBlockAccount != null">and is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+				<if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+				<if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+				<if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+				<if test="realnameTime != null">and realname_time=#{realnameTime,jdbcType=TIME}</if>
+				<if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+				<if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+				<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="user_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="orgId != null">and org_id=#{orgId,jdbcType=BIGINT}</if>
+                    <if test="account != null and account != ''">and account=#{account,jdbcType=VARCHAR}</if>
+                    <if test="phoneAccount != null and phoneAccount != ''">and phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+                    <if test="emailAccount != null and emailAccount != ''">and email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+                    <if test="userCode != null and userCode != ''">and user_code=#{userCode,jdbcType=VARCHAR}</if>
+                    <if test="password != null and password != ''">and password=#{password,jdbcType=VARCHAR}</if>
+                    <if test="salt != null and salt != ''">and salt=#{salt,jdbcType=VARCHAR}</if>
+                    <if test="userType != null">and user_type=#{userType,jdbcType=TINYINT}</if>
+                    <if test="isAdmin != null">and is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                    <if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+                    <if test="certSn != null and certSn != ''">and cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+                    <if test="issuerDn != null and issuerDn != ''">and issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+                    <if test="bcaId != null">and bca_id=#{bcaId,jdbcType=BIGINT}</if>
+                    <if test="bcaAddress != null and bcaAddress != ''">and bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+                    <if test="bcaOpenTime != null">and bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+                    <if test="isOpenBlockAccount != null">and is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+                    <if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="realnameTime != null">and realname_time=#{realnameTime,jdbcType=TIME}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="user_where_id">
+		where user.id=#{id,jdbcType=BIGINT}
+	</sql>
+
+    <sql id="user_delete_where_id">
+        where id=#{id,jdbcType=BIGINT}
+    </sql>
+
+	<sql id="user_update_where_id">
+		where id=#{id,jdbcType=BIGINT}
+	</sql>
+
+	<sql id="user_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="orgId != null">and user.org_id=#{orgId,jdbcType=BIGINT}</if>
+                <if test="bcaId != null">and user.bca_id=#{bcaId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="user_where_ids">
+		<if test="ids != null">
+			where user.id in
+			<trim prefixOverrides=",">
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")"> 
+            	${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="user_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				user.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				user.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="user_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				user.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="user_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="user_update">
+		update user
+	</sql>
+
+	<sql id="user_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=#{id,jdbcType=BIGINT}</if>
+                <if test="orgId != null">,org_id=#{orgId,jdbcType=BIGINT}</if>
+				<if test="account != null and account != ''">,account=#{account,jdbcType=VARCHAR}</if>
+				<if test="phoneAccount != null and phoneAccount != ''">,phone_account=#{phoneAccount,jdbcType=VARCHAR}</if>
+				<if test="emailAccount != null and emailAccount != ''">,email_account=#{emailAccount,jdbcType=VARCHAR}</if>
+				<if test="userCode != null and userCode != ''">,user_code=#{userCode,jdbcType=VARCHAR}</if>
+				<if test="password != null and password != ''">,password=#{password,jdbcType=VARCHAR}</if>
+				<if test="salt != null and salt != ''">,salt=#{salt,jdbcType=VARCHAR}</if>
+                <if test="userType != null">,user_type=#{userType,jdbcType=TINYINT}</if>
+                <if test="isAdmin != null">,is_admin=#{isAdmin,jdbcType=TINYINT}</if>
+				<if test="name != null and name != ''">,name=#{name,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">,mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="email != null and email != ''">,email=#{email,jdbcType=VARCHAR}</if>
+				<if test="certSn != null and certSn != ''">,cert_sn=#{certSn,jdbcType=VARCHAR}</if>
+				<if test="issuerDn != null and issuerDn != ''">,issuer_dn=#{issuerDn,jdbcType=VARCHAR}</if>
+                <if test="bcaId != null">,bca_id=#{bcaId,jdbcType=BIGINT}</if>
+				<if test="bcaAddress != null and bcaAddress != ''">,bca_address=#{bcaAddress,jdbcType=VARCHAR}</if>
+                <if test="bcaOpenTime != null">,bca_open_time=#{bcaOpenTime,jdbcType=TIME}</if>
+                <if test="isOpenBlockAccount != null">,is_open_block_account=#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+                <if test="isRealname != null">,is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isForbidden != null">,is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="realnameTime != null">,realname_time=#{realnameTime,jdbcType=TIME}</if>
+                <if test="createTime != null">,create_time=#{createTime,jdbcType=TIME}</if>
+				,modify_time=now()
+				<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="user_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=NULL</if>
+                <if test="orgId != null">,org_id=NULL</if>
+				<if test="account != null and  account != null">,account=NULL</if>
+				<if test="phoneAccount != null and  phoneAccount != null">,phone_account=NULL</if>
+				<if test="emailAccount != null and  emailAccount != null">,email_account=NULL</if>
+				<if test="userCode != null and  userCode != null">,user_code=NULL</if>
+				<if test="password != null and  password != null">,password=NULL</if>
+				<if test="salt != null and  salt != null">,salt=NULL</if>
+                <if test="userType != null">,user_type=NULL</if>
+                <if test="isAdmin != null">,is_admin=NULL</if>
+				<if test="name != null and  name != null">,name=NULL</if>
+				<if test="mobilePhone != null and  mobilePhone != null">,mobile_phone=NULL</if>
+				<if test="email != null and  email != null">,email=NULL</if>
+				<if test="certSn != null and  certSn != null">,cert_sn=NULL</if>
+				<if test="issuerDn != null and  issuerDn != null">,issuer_dn=NULL</if>
+                <if test="bcaId != null">,bca_id=NULL</if>
+				<if test="bcaAddress != null and  bcaAddress != null">,bca_address=NULL</if>
+                <if test="bcaOpenTime != null">,bca_open_time=NULL</if>
+                <if test="isOpenBlockAccount != null">,is_open_block_account=NULL</if>
+                <if test="isRealname != null">,is_realname=NULL</if>
+                <if test="isForbidden != null">,is_forbidden=NULL</if>
+                <if test="isDelete != null">,is_delete=NULL</if>
+                <if test="realnameTime != null">,realname_time=NULL</if>
+                <if test="createTime != null">,create_time=NULL</if>
+                <if test="modifyTime != null">,modify_time=NULL</if>
+				<if test="comments != null and  comments != null">,comments=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="user_insert">
+		insert into user
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,id</if>
+                <if test="orgId != null">,org_id</if>
+                <if test="account != null and account != ''">,account</if>
+                <if test="phoneAccount != null and phoneAccount != ''">,phone_account</if>
+                <if test="emailAccount != null and emailAccount != ''">,email_account</if>
+                <if test="userCode != null and userCode != ''">,user_code</if>
+                <if test="password != null and password != ''">,password</if>
+                <if test="salt != null and salt != ''">,salt</if>
+                <if test="userType != null">,user_type</if>
+                <if test="isAdmin != null">,is_admin</if>
+                <if test="name != null and name != ''">,name</if>
+                <if test="mobilePhone != null and mobilePhone != ''">,mobile_phone</if>
+                <if test="email != null and email != ''">,email</if>
+                <if test="certSn != null and certSn != ''">,cert_sn</if>
+                <if test="issuerDn != null and issuerDn != ''">,issuer_dn</if>
+                <if test="bcaId != null">,bca_id</if>
+                <if test="bcaAddress != null and bcaAddress != ''">,bca_address</if>
+                <if test="bcaOpenTime != null">,bca_open_time</if>
+                <if test="isOpenBlockAccount != null">,is_open_block_account</if>
+                <if test="isRealname != null">,is_realname</if>
+                <if test="isForbidden != null">,is_forbidden</if>
+                <if test="isDelete != null">,is_delete</if>
+                <if test="realnameTime != null">,realname_time</if>
+                ,create_time
+                ,modify_time
+                <if test="comments != null and comments != ''">,comments</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,#{id,jdbcType=BIGINT}</if>
+                <if test="orgId != null">,#{orgId,jdbcType=BIGINT}</if>
+				<if test="account != null and account != ''">,#{account,jdbcType=VARCHAR}</if>
+				<if test="phoneAccount != null and phoneAccount != ''">,#{phoneAccount,jdbcType=VARCHAR}</if>
+				<if test="emailAccount != null and emailAccount != ''">,#{emailAccount,jdbcType=VARCHAR}</if>
+				<if test="userCode != null and userCode != ''">,#{userCode,jdbcType=VARCHAR}</if>
+				<if test="password != null and password != ''">,#{password,jdbcType=VARCHAR}</if>
+				<if test="salt != null and salt != ''">,#{salt,jdbcType=VARCHAR}</if>
+                <if test="userType != null">,#{userType,jdbcType=TINYINT}</if>
+                <if test="isAdmin != null">,#{isAdmin,jdbcType=TINYINT}</if>
+				<if test="name != null and name != ''">,#{name,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">,#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="email != null and email != ''">,#{email,jdbcType=VARCHAR}</if>
+				<if test="certSn != null and certSn != ''">,#{certSn,jdbcType=VARCHAR}</if>
+				<if test="issuerDn != null and issuerDn != ''">,#{issuerDn,jdbcType=VARCHAR}</if>
+                <if test="bcaId != null">,#{bcaId,jdbcType=BIGINT}</if>
+				<if test="bcaAddress != null and bcaAddress != ''">,#{bcaAddress,jdbcType=VARCHAR}</if>
+                <if test="bcaOpenTime != null">,#{bcaOpenTime,jdbcType=TIME}</if>
+                <if test="isOpenBlockAccount != null">,#{isOpenBlockAccount,jdbcType=TINYINT}</if>
+                <if test="isRealname != null">,#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isForbidden != null">,#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,#{isDelete,jdbcType=TINYINT}</if>
+                <if test="realnameTime != null">,#{realnameTime,jdbcType=TIME}</if>
+                ,now()
+				,now()
+				<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+	</sql>
+
+	<sql id="user_delete">
+		delete from user
+	</sql>
+
+	<parameterMap id="rolePermitRelation" type="rolePermitRelation" />
+	<resultMap id="rolePermitRelation" type="rolePermitRelation">
+		<result property="roleId" column="rolePermitRelation_roleId" javaType="java.lang.Long" />
+		<result property="permitId" column="rolePermitRelation_permitId" javaType="java.lang.Long" />
+	</resultMap>
+
+	<resultMap id="rolePermitRelationRoleInnerResult" type="rolePermitRelation" extends="rolePermitRelation">
+		<association property="role" resultMap="role"/>
+	</resultMap>
+	<resultMap id="rolePermitRelationPermissionInnerResult" type="rolePermitRelation" extends="rolePermitRelation">
+		<association property="permission" resultMap="permission"/>
+	</resultMap>
+
+	<sql id="rolePermitRelation_select">
+		select
+	</sql>
+	<sql id="rolePermitRelation_select_count">
+		select count(*)
+	</sql>
+	<sql id="rolePermitRelation_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="rolePermitRelation_select_fields">
+        select
+			rolePermitRelation.role_id rolePermitRelation_roleId,
+			rolePermitRelation.permit_id rolePermitRelation_permitId
+	</sql>
+
+    <sql id="rolePermitRelation_select_distinct_fields">
+        select distinct
+            rolePermitRelation.role_id rolePermitRelation_roleId,
+            rolePermitRelation.permit_id rolePermitRelation_permitId
+    </sql>
+
+	<sql id="rolePermitRelation_select_ref_fields">
+		rolePermitRelation.role_id rolePermitRelation_roleId,
+		rolePermitRelation.permit_id rolePermitRelation_permitId
+	</sql>
+
+	<sql id="rolePermitRelation_from">
+		from role_permit_relation rolePermitRelation
+	</sql>
+
+	<sql id="rolePermitRelation_inner_all">
+		inner join role role on role.id=rolePermitRelation.role_id
+		inner join permission permission on permission.id=rolePermitRelation.permit_id
+	</sql>
+
+	<sql id="rolePermitRelation_inner_role">
+		inner join role role on role.id=rolePermitRelation.role_id
+	</sql>
+	<sql id="rolePermitRelation_inner_permission">
+		inner join permission permission on permission.id=rolePermitRelation.permit_id
+	</sql>
+
+	<sql id="rolePermitRelation_left_all">
+	</sql>
+
+
+	<sql id="rolePermitRelation_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="roleId != null">and rolePermitRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+                <if test="roleIdOperator != null and roleIdExpression != null">and rolePermitRelation.role_id ${roleIdOperator} ${roleIdExpression}</if>
+                <if test="permitId != null">and rolePermitRelation.permit_id=#{permitId,jdbcType=BIGINT}</if>
+                <if test="permitIdOperator != null and permitIdExpression != null">and rolePermitRelation.permit_id ${permitIdOperator} ${permitIdExpression}</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="rolePermitRelation_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+                    <if test="permitId != null">and permit_id=#{permitId,jdbcType=BIGINT}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="rolePermitRelation_where_fields">
+        <if test="roleId != null">and rolePermitRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+        <if test="permitId != null">and rolePermitRelation.permit_id=#{permitId,jdbcType=BIGINT}</if>
+	</sql>
+
+	<sql id="rolePermitRelation_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+				<if test="permitId != null">and permit_id=#{permitId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="rolePermitRelation_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="roleId != null">and role_id=#{roleId,jdbcType=BIGINT}</if>
+                    <if test="permitId != null">and permit_id=#{permitId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<sql id="rolePermitRelation_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="roleId != null">and rolePermitRelation.role_id=#{roleId,jdbcType=BIGINT}</if>
+                <if test="permitId != null">and rolePermitRelation.permit_id=#{permitId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<sql id="rolePermitRelation_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				rolePermitRelation.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				rolePermitRelation.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="rolePermitRelation_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				rolePermitRelation.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="rolePermitRelation_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="rolePermitRelation_update">
+		update role_permit_relation
+	</sql>
+
+	<sql id="rolePermitRelation_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="roleId != null">,role_id=#{roleId,jdbcType=BIGINT}</if>
+                <if test="permitId != null">,permit_id=#{permitId,jdbcType=BIGINT}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="rolePermitRelation_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="roleId != null">,role_id=NULL</if>
+                <if test="permitId != null">,permit_id=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="rolePermitRelation_insert">
+		insert into role_permit_relation
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="roleId != null">,role_id</if>
+                <if test="permitId != null">,permit_id</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="roleId != null">,#{roleId,jdbcType=BIGINT}</if>
+                <if test="permitId != null">,#{permitId,jdbcType=BIGINT}</if>
+			</trim>
+	</sql>
+
+	<sql id="rolePermitRelation_delete">
+		delete from role_permit_relation
+	</sql>
+
+	<parameterMap id="permission" type="permission" />
+	<resultMap id="permission" type="permission">
+		<id property="id" column="permission_id" javaType="java.lang.Long" />
+		<result property="code" column="permission_code" javaType="java.lang.Long" />
+		<result property="parentCode" column="permission_parentCode" javaType="java.lang.Long" />
+		<result property="name" column="permission_name" javaType="java.lang.String" />
+		<result property="parentName" column="permission_parentName" javaType="java.lang.String" />
+		<result property="serviceCode" column="permission_serviceCode" javaType="java.lang.String" />
+		<result property="urlPath" column="permission_urlPath" javaType="java.lang.String" />
+		<result property="wildcardPath" column="permission_wildcardPath" javaType="java.lang.String" />
+		<result property="modelName" column="permission_modelName" javaType="java.lang.String" />
+		<result property="entityName" column="permission_entityName" javaType="java.lang.String" />
+		<result property="methodName" column="permission_methodName" javaType="java.lang.String" />
+		<result property="viewName" column="permission_viewName" javaType="java.lang.String" />
+		<result property="codeKey" column="permission_codeKey" javaType="java.lang.String" />
+		<result property="treeLevel" column="permission_treeLevel" javaType="java.lang.Integer" />
+		<result property="treePath" column="permission_treePath" javaType="java.lang.String" />
+		<result property="authType" column="permission_authType" javaType="java.lang.Integer" />
+		<result property="isShow" column="permission_isShow" javaType="java.lang.Integer" />
+		<result property="isChildNode" column="permission_isChildNode" javaType="java.lang.Integer" />
+		<result property="isDelete" column="permission_isDelete" javaType="java.lang.Integer" />
+		<result property="createTime" column="permission_createTime" javaType="java.lang.String" />
+		<result property="modifyTime" column="permission_modifyTime" javaType="java.lang.String" />
+		<result property="comments" column="permission_comments" javaType="java.lang.String" />
+	</resultMap>
+
+	<resultMap id="permissionRolePermitRelationLeftResult" type="permission" extends="permission">
+		<collection property="listRolePermitRelation" resultMap="rolePermitRelation"/>
+	</resultMap>
+
+	<sql id="permission_select">
+		select
+	</sql>
+	<sql id="permission_select_count">
+		select count(*)
+	</sql>
+	<sql id="permission_select_id">
+		select permission.id
+	</sql>
+	<sql id="permission_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="permission_select_fields">
+        select
+			permission.id permission_id,
+			permission.code permission_code,
+			permission.parent_code permission_parentCode,
+			permission.name permission_name,
+			permission.parent_name permission_parentName,
+			permission.service_code permission_serviceCode,
+			permission.url_path permission_urlPath,
+			permission.wildcard_path permission_wildcardPath,
+			permission.model_name permission_modelName,
+			permission.entity_name permission_entityName,
+			permission.method_name permission_methodName,
+			permission.view_name permission_viewName,
+			permission.code_key permission_codeKey,
+			permission.tree_level permission_treeLevel,
+			permission.tree_path permission_treePath,
+			permission.auth_type permission_authType,
+			permission.is_show permission_isShow,
+			permission.is_child_node permission_isChildNode,
+			permission.is_delete permission_isDelete,
+			permission.create_time permission_createTime,
+			permission.modify_time permission_modifyTime,
+			permission.comments permission_comments
+	</sql>
+
+    <sql id="permission_select_distinct_fields">
+        select distinct
+            permission.id permission_id,
+            permission.code permission_code,
+            permission.parent_code permission_parentCode,
+            permission.name permission_name,
+            permission.parent_name permission_parentName,
+            permission.service_code permission_serviceCode,
+            permission.url_path permission_urlPath,
+            permission.wildcard_path permission_wildcardPath,
+            permission.model_name permission_modelName,
+            permission.entity_name permission_entityName,
+            permission.method_name permission_methodName,
+            permission.view_name permission_viewName,
+            permission.code_key permission_codeKey,
+            permission.tree_level permission_treeLevel,
+            permission.tree_path permission_treePath,
+            permission.auth_type permission_authType,
+            permission.is_show permission_isShow,
+            permission.is_child_node permission_isChildNode,
+            permission.is_delete permission_isDelete,
+            permission.create_time permission_createTime,
+            permission.modify_time permission_modifyTime,
+            permission.comments permission_comments
+    </sql>
+
+	<sql id="permission_select_ref_fields">
+		permission.id permission_id,
+		permission.code permission_code,
+		permission.parent_code permission_parentCode,
+		permission.name permission_name,
+		permission.parent_name permission_parentName,
+		permission.service_code permission_serviceCode,
+		permission.url_path permission_urlPath,
+		permission.wildcard_path permission_wildcardPath,
+		permission.model_name permission_modelName,
+		permission.entity_name permission_entityName,
+		permission.method_name permission_methodName,
+		permission.view_name permission_viewName,
+		permission.code_key permission_codeKey,
+		permission.tree_level permission_treeLevel,
+		permission.tree_path permission_treePath,
+		permission.auth_type permission_authType,
+		permission.is_show permission_isShow,
+		permission.is_child_node permission_isChildNode,
+		permission.is_delete permission_isDelete,
+		permission.create_time permission_createTime,
+		permission.modify_time permission_modifyTime,
+		permission.comments permission_comments
+	</sql>
+
+	<sql id="permission_from">
+		from permission permission
+	</sql>
+
+	<sql id="permission_inner_all">
+	</sql>
+
+
+	<sql id="permission_left_all">
+		left join role_permit_relation rolePermitRelation on rolePermitRelation.permit_id=permission.id
+	</sql>
+
+	<sql id="permission_left_rolePermitRelation">
+		left join role_permit_relation rolePermitRelation on rolePermitRelation.permit_id=permission.id
+	</sql>
+
+	<sql id="permission_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="id != null">and permission.id=#{id,jdbcType=BIGINT}</if>
+                <if test="idOperator != null and idExpression != null">and permission.id ${idOperator} ${idExpression}</if>
+                <if test="code != null">and permission.code=#{code,jdbcType=BIGINT}</if>
+                <if test="codeOperator != null and codeExpression != null">and permission.code ${codeOperator} ${codeExpression}</if>
+                <if test="parentCode != null">and permission.parent_code=#{parentCode,jdbcType=BIGINT}</if>
+                <if test="parentCodeOperator != null and parentCodeExpression != null">and permission.parent_code ${parentCodeOperator} ${parentCodeExpression}</if>
+				<if test="name != null and name != ''">and permission.name=#{name,jdbcType=VARCHAR}</if>
+                <if test="nameAsLike != null and nameAsLike != ''">and permission.name like concat('%',#{nameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="parentName != null and parentName != ''">and permission.parent_name=#{parentName,jdbcType=VARCHAR}</if>
+                <if test="parentNameAsLike != null and parentNameAsLike != ''">and permission.parent_name like concat('%',#{parentNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="serviceCode != null and serviceCode != ''">and permission.service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+                <if test="serviceCodeAsLike != null and serviceCodeAsLike != ''">and permission.service_code like concat('%',#{serviceCodeAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="urlPath != null and urlPath != ''">and permission.url_path=#{urlPath,jdbcType=VARCHAR}</if>
+                <if test="urlPathAsLike != null and urlPathAsLike != ''">and permission.url_path like concat('%',#{urlPathAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="wildcardPath != null and wildcardPath != ''">and permission.wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+                <if test="wildcardPathAsLike != null and wildcardPathAsLike != ''">and permission.wildcard_path like concat('%',#{wildcardPathAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="modelName != null and modelName != ''">and permission.model_name=#{modelName,jdbcType=VARCHAR}</if>
+                <if test="modelNameAsLike != null and modelNameAsLike != ''">and permission.model_name like concat('%',#{modelNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="entityName != null and entityName != ''">and permission.entity_name=#{entityName,jdbcType=VARCHAR}</if>
+                <if test="entityNameAsLike != null and entityNameAsLike != ''">and permission.entity_name like concat('%',#{entityNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="methodName != null and methodName != ''">and permission.method_name=#{methodName,jdbcType=VARCHAR}</if>
+                <if test="methodNameAsLike != null and methodNameAsLike != ''">and permission.method_name like concat('%',#{methodNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="viewName != null and viewName != ''">and permission.view_name=#{viewName,jdbcType=VARCHAR}</if>
+                <if test="viewNameAsLike != null and viewNameAsLike != ''">and permission.view_name like concat('%',#{viewNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="codeKey != null and codeKey != ''">and permission.code_key=#{codeKey,jdbcType=VARCHAR}</if>
+                <if test="codeKeyAsLike != null and codeKeyAsLike != ''">and permission.code_key like concat('%',#{codeKeyAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="treeLevel != null">and permission.tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+                <if test="treeLevelOperator != null and treeLevelExpression != null">and permission.tree_level ${treeLevelOperator} ${treeLevelExpression}</if>
+				<if test="treePath != null and treePath != ''">and permission.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                <if test="treePathAsLike != null and treePathAsLike != ''">and permission.tree_path like concat('%',#{treePathAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="authType != null">and permission.auth_type=#{authType,jdbcType=TINYINT}</if>
+                <if test="authTypeOperator != null and authTypeExpression != null">and permission.auth_type ${authTypeOperator} ${authTypeExpression}</if>
+                <if test="isShow != null">and permission.is_show=#{isShow,jdbcType=TINYINT}</if>
+                <if test="isShowOperator != null and isShowExpression != null">and permission.is_show ${isShowOperator} ${isShowExpression}</if>
+                <if test="isChildNode != null">and permission.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                <if test="isChildNodeOperator != null and isChildNodeExpression != null">and permission.is_child_node ${isChildNodeOperator} ${isChildNodeExpression}</if>
+                <if test="isDelete != null">and permission.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="isDeleteOperator != null and isDeleteExpression != null">and permission.is_delete ${isDeleteOperator} ${isDeleteExpression}</if>
+                <if test="createTime != null">and permission.create_time=#{createTime,jdbcType=TIME}</if>
+                <if test="createTimeOperator != null and createTimeExpression != null">and permission.create_time ${createTimeOperator} ${createTimeExpression}</if>
+                <if test="modifyTime != null">and permission.modify_time=#{modifyTime,jdbcType=TIME}</if>
+                <if test="modifyTimeOperator != null and modifyTimeExpression != null">and permission.modify_time ${modifyTimeOperator} ${modifyTimeExpression}</if>
+				<if test="comments != null and comments != ''">and permission.comments=#{comments,jdbcType=VARCHAR}</if>
+                <if test="commentsAsLike != null and commentsAsLike != ''">and permission.comments like concat('%',#{commentsAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="permission_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="code != null">and code=#{code,jdbcType=BIGINT}</if>
+                    <if test="parentCode != null">and parent_code=#{parentCode,jdbcType=BIGINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="parentName != null and parentName != ''">and parent_name=#{parentName,jdbcType=VARCHAR}</if>
+                    <if test="serviceCode != null and serviceCode != ''">and service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+                    <if test="urlPath != null and urlPath != ''">and url_path=#{urlPath,jdbcType=VARCHAR}</if>
+                    <if test="wildcardPath != null and wildcardPath != ''">and wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+                    <if test="modelName != null and modelName != ''">and model_name=#{modelName,jdbcType=VARCHAR}</if>
+                    <if test="entityName != null and entityName != ''">and entity_name=#{entityName,jdbcType=VARCHAR}</if>
+                    <if test="methodName != null and methodName != ''">and method_name=#{methodName,jdbcType=VARCHAR}</if>
+                    <if test="viewName != null and viewName != ''">and view_name=#{viewName,jdbcType=VARCHAR}</if>
+                    <if test="codeKey != null and codeKey != ''">and code_key=#{codeKey,jdbcType=VARCHAR}</if>
+                    <if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+                    <if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                    <if test="authType != null">and auth_type=#{authType,jdbcType=TINYINT}</if>
+                    <if test="isShow != null">and is_show=#{isShow,jdbcType=TINYINT}</if>
+                    <if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="permission_where_fields">
+        <if test="id != null">and permission.id=#{id,jdbcType=BIGINT}</if>
+        <if test="code != null">and permission.code=#{code,jdbcType=BIGINT}</if>
+        <if test="parentCode != null">and permission.parent_code=#{parentCode,jdbcType=BIGINT}</if>
+        <if test="name != null and name != ''">and permission.name=#{name,jdbcType=VARCHAR}</if>
+        <if test="parentName != null and parentName != ''">and permission.parent_name=#{parentName,jdbcType=VARCHAR}</if>
+        <if test="serviceCode != null and serviceCode != ''">and permission.service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+        <if test="urlPath != null and urlPath != ''">and permission.url_path=#{urlPath,jdbcType=VARCHAR}</if>
+        <if test="wildcardPath != null and wildcardPath != ''">and permission.wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+        <if test="modelName != null and modelName != ''">and permission.model_name=#{modelName,jdbcType=VARCHAR}</if>
+        <if test="entityName != null and entityName != ''">and permission.entity_name=#{entityName,jdbcType=VARCHAR}</if>
+        <if test="methodName != null and methodName != ''">and permission.method_name=#{methodName,jdbcType=VARCHAR}</if>
+        <if test="viewName != null and viewName != ''">and permission.view_name=#{viewName,jdbcType=VARCHAR}</if>
+        <if test="codeKey != null and codeKey != ''">and permission.code_key=#{codeKey,jdbcType=VARCHAR}</if>
+        <if test="treeLevel != null">and permission.tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+        <if test="treePath != null and treePath != ''">and permission.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+        <if test="authType != null">and permission.auth_type=#{authType,jdbcType=TINYINT}</if>
+        <if test="isShow != null">and permission.is_show=#{isShow,jdbcType=TINYINT}</if>
+        <if test="isChildNode != null">and permission.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+        <if test="isDelete != null">and permission.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+        <if test="createTime != null">and permission.create_time=#{createTime,jdbcType=TIME}</if>
+        <if test="modifyTime != null">and permission.modify_time=#{modifyTime,jdbcType=TIME}</if>
+        <if test="comments != null and comments != ''">and permission.comments=#{comments,jdbcType=VARCHAR}</if>
+	</sql>
+
+	<sql id="permission_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+				<if test="code != null">and code=#{code,jdbcType=BIGINT}</if>
+				<if test="parentCode != null">and parent_code=#{parentCode,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+				<if test="parentName != null and parentName != ''">and parent_name=#{parentName,jdbcType=VARCHAR}</if>
+				<if test="serviceCode != null and serviceCode != ''">and service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+				<if test="urlPath != null and urlPath != ''">and url_path=#{urlPath,jdbcType=VARCHAR}</if>
+				<if test="wildcardPath != null and wildcardPath != ''">and wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+				<if test="modelName != null and modelName != ''">and model_name=#{modelName,jdbcType=VARCHAR}</if>
+				<if test="entityName != null and entityName != ''">and entity_name=#{entityName,jdbcType=VARCHAR}</if>
+				<if test="methodName != null and methodName != ''">and method_name=#{methodName,jdbcType=VARCHAR}</if>
+				<if test="viewName != null and viewName != ''">and view_name=#{viewName,jdbcType=VARCHAR}</if>
+				<if test="codeKey != null and codeKey != ''">and code_key=#{codeKey,jdbcType=VARCHAR}</if>
+				<if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+				<if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+				<if test="authType != null">and auth_type=#{authType,jdbcType=TINYINT}</if>
+				<if test="isShow != null">and is_show=#{isShow,jdbcType=TINYINT}</if>
+				<if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+				<if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+				<if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+				<if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+				<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="permission_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="code != null">and code=#{code,jdbcType=BIGINT}</if>
+                    <if test="parentCode != null">and parent_code=#{parentCode,jdbcType=BIGINT}</if>
+                    <if test="name != null and name != ''">and name=#{name,jdbcType=VARCHAR}</if>
+                    <if test="parentName != null and parentName != ''">and parent_name=#{parentName,jdbcType=VARCHAR}</if>
+                    <if test="serviceCode != null and serviceCode != ''">and service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+                    <if test="urlPath != null and urlPath != ''">and url_path=#{urlPath,jdbcType=VARCHAR}</if>
+                    <if test="wildcardPath != null and wildcardPath != ''">and wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+                    <if test="modelName != null and modelName != ''">and model_name=#{modelName,jdbcType=VARCHAR}</if>
+                    <if test="entityName != null and entityName != ''">and entity_name=#{entityName,jdbcType=VARCHAR}</if>
+                    <if test="methodName != null and methodName != ''">and method_name=#{methodName,jdbcType=VARCHAR}</if>
+                    <if test="viewName != null and viewName != ''">and view_name=#{viewName,jdbcType=VARCHAR}</if>
+                    <if test="codeKey != null and codeKey != ''">and code_key=#{codeKey,jdbcType=VARCHAR}</if>
+                    <if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+                    <if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                    <if test="authType != null">and auth_type=#{authType,jdbcType=TINYINT}</if>
+                    <if test="isShow != null">and is_show=#{isShow,jdbcType=TINYINT}</if>
+                    <if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="permission_where_id">
+		where permission.id=#{id,jdbcType=BIGINT}
+	</sql>
+
+    <sql id="permission_delete_where_id">
+        where id=#{id,jdbcType=BIGINT}
+    </sql>
+
+	<sql id="permission_update_where_id">
+		where id=#{id,jdbcType=BIGINT}
+	</sql>
+
+	<sql id="permission_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="permission_where_ids">
+		<if test="ids != null">
+			where permission.id in
+			<trim prefixOverrides=",">
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")"> 
+            	${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="permission_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				permission.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				permission.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="permission_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				permission.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="permission_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="permission_update">
+		update permission
+	</sql>
+
+	<sql id="permission_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=#{id,jdbcType=BIGINT}</if>
+                <if test="code != null">,code=#{code,jdbcType=BIGINT}</if>
+                <if test="parentCode != null">,parent_code=#{parentCode,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">,name=#{name,jdbcType=VARCHAR}</if>
+				<if test="parentName != null and parentName != ''">,parent_name=#{parentName,jdbcType=VARCHAR}</if>
+				<if test="serviceCode != null and serviceCode != ''">,service_code=#{serviceCode,jdbcType=VARCHAR}</if>
+				<if test="urlPath != null and urlPath != ''">,url_path=#{urlPath,jdbcType=VARCHAR}</if>
+				<if test="wildcardPath != null and wildcardPath != ''">,wildcard_path=#{wildcardPath,jdbcType=VARCHAR}</if>
+				<if test="modelName != null and modelName != ''">,model_name=#{modelName,jdbcType=VARCHAR}</if>
+				<if test="entityName != null and entityName != ''">,entity_name=#{entityName,jdbcType=VARCHAR}</if>
+				<if test="methodName != null and methodName != ''">,method_name=#{methodName,jdbcType=VARCHAR}</if>
+				<if test="viewName != null and viewName != ''">,view_name=#{viewName,jdbcType=VARCHAR}</if>
+				<if test="codeKey != null and codeKey != ''">,code_key=#{codeKey,jdbcType=VARCHAR}</if>
+                <if test="treeLevel != null">,tree_level=#{treeLevel,jdbcType=INTEGER}</if>
+				<if test="treePath != null and treePath != ''">,tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                <if test="authType != null">,auth_type=#{authType,jdbcType=TINYINT}</if>
+                <if test="isShow != null">,is_show=#{isShow,jdbcType=TINYINT}</if>
+                <if test="isChildNode != null">,is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="createTime != null">,create_time=#{createTime,jdbcType=TIME}</if>
+				,modify_time=now()
+				<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="permission_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=NULL</if>
+                <if test="code != null">,code=NULL</if>
+                <if test="parentCode != null">,parent_code=NULL</if>
+				<if test="name != null and  name != null">,name=NULL</if>
+				<if test="parentName != null and  parentName != null">,parent_name=NULL</if>
+				<if test="serviceCode != null and  serviceCode != null">,service_code=NULL</if>
+				<if test="urlPath != null and  urlPath != null">,url_path=NULL</if>
+				<if test="wildcardPath != null and  wildcardPath != null">,wildcard_path=NULL</if>
+				<if test="modelName != null and  modelName != null">,model_name=NULL</if>
+				<if test="entityName != null and  entityName != null">,entity_name=NULL</if>
+				<if test="methodName != null and  methodName != null">,method_name=NULL</if>
+				<if test="viewName != null and  viewName != null">,view_name=NULL</if>
+				<if test="codeKey != null and  codeKey != null">,code_key=NULL</if>
+                <if test="treeLevel != null">,tree_level=NULL</if>
+				<if test="treePath != null and  treePath != null">,tree_path=NULL</if>
+                <if test="authType != null">,auth_type=NULL</if>
+                <if test="isShow != null">,is_show=NULL</if>
+                <if test="isChildNode != null">,is_child_node=NULL</if>
+                <if test="isDelete != null">,is_delete=NULL</if>
+                <if test="createTime != null">,create_time=NULL</if>
+                <if test="modifyTime != null">,modify_time=NULL</if>
+				<if test="comments != null and  comments != null">,comments=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="permission_insert">
+		insert into permission
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,id</if>
+                <if test="code != null">,code</if>
+                <if test="parentCode != null">,parent_code</if>
+                <if test="name != null and name != ''">,name</if>
+                <if test="parentName != null and parentName != ''">,parent_name</if>
+                <if test="serviceCode != null and serviceCode != ''">,service_code</if>
+                <if test="urlPath != null and urlPath != ''">,url_path</if>
+                <if test="wildcardPath != null and wildcardPath != ''">,wildcard_path</if>
+                <if test="modelName != null and modelName != ''">,model_name</if>
+                <if test="entityName != null and entityName != ''">,entity_name</if>
+                <if test="methodName != null and methodName != ''">,method_name</if>
+                <if test="viewName != null and viewName != ''">,view_name</if>
+                <if test="codeKey != null and codeKey != ''">,code_key</if>
+                <if test="treeLevel != null">,tree_level</if>
+                <if test="treePath != null and treePath != ''">,tree_path</if>
+                <if test="authType != null">,auth_type</if>
+                <if test="isShow != null">,is_show</if>
+                <if test="isChildNode != null">,is_child_node</if>
+                <if test="isDelete != null">,is_delete</if>
+                ,create_time
+                ,modify_time
+                <if test="comments != null and comments != ''">,comments</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,#{id,jdbcType=BIGINT}</if>
+                <if test="code != null">,#{code,jdbcType=BIGINT}</if>
+                <if test="parentCode != null">,#{parentCode,jdbcType=BIGINT}</if>
+				<if test="name != null and name != ''">,#{name,jdbcType=VARCHAR}</if>
+				<if test="parentName != null and parentName != ''">,#{parentName,jdbcType=VARCHAR}</if>
+				<if test="serviceCode != null and serviceCode != ''">,#{serviceCode,jdbcType=VARCHAR}</if>
+				<if test="urlPath != null and urlPath != ''">,#{urlPath,jdbcType=VARCHAR}</if>
+				<if test="wildcardPath != null and wildcardPath != ''">,#{wildcardPath,jdbcType=VARCHAR}</if>
+				<if test="modelName != null and modelName != ''">,#{modelName,jdbcType=VARCHAR}</if>
+				<if test="entityName != null and entityName != ''">,#{entityName,jdbcType=VARCHAR}</if>
+				<if test="methodName != null and methodName != ''">,#{methodName,jdbcType=VARCHAR}</if>
+				<if test="viewName != null and viewName != ''">,#{viewName,jdbcType=VARCHAR}</if>
+				<if test="codeKey != null and codeKey != ''">,#{codeKey,jdbcType=VARCHAR}</if>
+                <if test="treeLevel != null">,#{treeLevel,jdbcType=INTEGER}</if>
+				<if test="treePath != null and treePath != ''">,#{treePath,jdbcType=VARCHAR}</if>
+                <if test="authType != null">,#{authType,jdbcType=TINYINT}</if>
+                <if test="isShow != null">,#{isShow,jdbcType=TINYINT}</if>
+                <if test="isChildNode != null">,#{isChildNode,jdbcType=TINYINT}</if>
+                <if test="isDelete != null">,#{isDelete,jdbcType=TINYINT}</if>
+                ,now()
+				,now()
+				<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+	</sql>
+
+	<sql id="permission_delete">
+		delete from permission
+	</sql>
+
+	<parameterMap id="organization" type="organization" />
+	<resultMap id="organization" type="organization">
+		<id property="id" column="organization_id" javaType="java.lang.Long" />
+		<result property="parentId" column="organization_parentId" javaType="java.lang.Long" />
+		<result property="orgCode" column="organization_orgCode" javaType="java.lang.String" />
+		<result property="orgName" column="organization_orgName" javaType="java.lang.String" />
+		<result property="orgType" column="organization_orgType" javaType="java.lang.Integer" />
+		<result property="email" column="organization_email" javaType="java.lang.String" />
+		<result property="mobilePhone" column="organization_mobilePhone" javaType="java.lang.String" />
+		<result property="domainName" column="organization_domainName" javaType="java.lang.String" />
+		<result property="logo" column="organization_logo" javaType="java.lang.String" />
+		<result property="isRealname" column="organization_isRealname" javaType="java.lang.Integer" />
+		<result property="isForbidden" column="organization_isForbidden" javaType="java.lang.Integer" />
+		<result property="treeLevel" column="organization_treeLevel" javaType="java.lang.Integer" />
+		<result property="treePath" column="organization_treePath" javaType="java.lang.String" />
+		<result property="isChildNode" column="organization_isChildNode" javaType="java.lang.Integer" />
+		<result property="blockchainAddress" column="organization_blockchainAddress" javaType="java.lang.String" />
+		<result property="isDelete" column="organization_isDelete" javaType="java.lang.Integer" />
+		<result property="createTime" column="organization_createTime" javaType="java.lang.String" />
+		<result property="modifyTime" column="organization_modifyTime" javaType="java.lang.String" />
+		<result property="comments" column="organization_comments" javaType="java.lang.String" />
+	</resultMap>
+
+	<resultMap id="organizationUserLeftResult" type="organization" extends="organization">
+		<collection property="listUser" resultMap="user"/>
+	</resultMap>
+
+	<sql id="organization_select">
+		select
+	</sql>
+	<sql id="organization_select_count">
+		select count(*)
+	</sql>
+	<sql id="organization_select_id">
+		select organization.id
+	</sql>
+	<sql id="organization_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="organization_select_fields">
+        select
+			organization.id organization_id,
+			organization.parent_id organization_parentId,
+			organization.org_code organization_orgCode,
+			organization.org_name organization_orgName,
+			organization.org_type organization_orgType,
+			organization.email organization_email,
+			organization.mobile_phone organization_mobilePhone,
+			organization.domain_name organization_domainName,
+			organization.logo organization_logo,
+			organization.is_realname organization_isRealname,
+			organization.is_forbidden organization_isForbidden,
+			organization.tree_level organization_treeLevel,
+			organization.tree_path organization_treePath,
+			organization.is_child_node organization_isChildNode,
+			organization.blockchain_address organization_blockchainAddress,
+			organization.is_delete organization_isDelete,
+			organization.create_time organization_createTime,
+			organization.modify_time organization_modifyTime,
+			organization.comments organization_comments
+	</sql>
+
+    <sql id="organization_select_distinct_fields">
+        select distinct
+            organization.id organization_id,
+            organization.parent_id organization_parentId,
+            organization.org_code organization_orgCode,
+            organization.org_name organization_orgName,
+            organization.org_type organization_orgType,
+            organization.email organization_email,
+            organization.mobile_phone organization_mobilePhone,
+            organization.domain_name organization_domainName,
+            organization.logo organization_logo,
+            organization.is_realname organization_isRealname,
+            organization.is_forbidden organization_isForbidden,
+            organization.tree_level organization_treeLevel,
+            organization.tree_path organization_treePath,
+            organization.is_child_node organization_isChildNode,
+            organization.blockchain_address organization_blockchainAddress,
+            organization.is_delete organization_isDelete,
+            organization.create_time organization_createTime,
+            organization.modify_time organization_modifyTime,
+            organization.comments organization_comments
+    </sql>
+
+	<sql id="organization_select_ref_fields">
+		organization.id organization_id,
+		organization.parent_id organization_parentId,
+		organization.org_code organization_orgCode,
+		organization.org_name organization_orgName,
+		organization.org_type organization_orgType,
+		organization.email organization_email,
+		organization.mobile_phone organization_mobilePhone,
+		organization.domain_name organization_domainName,
+		organization.logo organization_logo,
+		organization.is_realname organization_isRealname,
+		organization.is_forbidden organization_isForbidden,
+		organization.tree_level organization_treeLevel,
+		organization.tree_path organization_treePath,
+		organization.is_child_node organization_isChildNode,
+		organization.blockchain_address organization_blockchainAddress,
+		organization.is_delete organization_isDelete,
+		organization.create_time organization_createTime,
+		organization.modify_time organization_modifyTime,
+		organization.comments organization_comments
+	</sql>
+
+	<sql id="organization_from">
+		from organization organization
+	</sql>
+
+	<sql id="organization_inner_all">
+	</sql>
+
+
+	<sql id="organization_left_all">
+		left join user user on user.org_id=organization.id
+	</sql>
+
+	<sql id="organization_left_user">
+		left join user user on user.org_id=organization.id
+	</sql>
+
+	<sql id="organization_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="id != null">and organization.id=#{id,jdbcType=BIGINT}</if>
+                <if test="idOperator != null and idExpression != null">and organization.id ${idOperator} ${idExpression}</if>
+                <if test="parentId != null">and organization.parent_id=#{parentId,jdbcType=BIGINT}</if>
+                <if test="parentIdOperator != null and parentIdExpression != null">and organization.parent_id ${parentIdOperator} ${parentIdExpression}</if>
+				<if test="orgCode != null and orgCode != ''">and organization.org_code=#{orgCode,jdbcType=VARCHAR}</if>
+                <if test="orgCodeAsLike != null and orgCodeAsLike != ''">and organization.org_code like concat('%',#{orgCodeAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="orgName != null and orgName != ''">and organization.org_name=#{orgName,jdbcType=VARCHAR}</if>
+                <if test="orgNameAsLike != null and orgNameAsLike != ''">and organization.org_name like concat('%',#{orgNameAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="orgType != null">and organization.org_type=#{orgType,jdbcType=TINYINT}</if>
+                <if test="orgTypeOperator != null and orgTypeExpression != null">and organization.org_type ${orgTypeOperator} ${orgTypeExpression}</if>
+				<if test="email != null and email != ''">and organization.email=#{email,jdbcType=VARCHAR}</if>
+                <if test="emailAsLike != null and emailAsLike != ''">and organization.email like concat('%',#{emailAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="mobilePhone != null and mobilePhone != ''">and organization.mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                <if test="mobilePhoneAsLike != null and mobilePhoneAsLike != ''">and organization.mobile_phone like concat('%',#{mobilePhoneAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="domainName != null and domainName != ''">and organization.domain_name=#{domainName,jdbcType=VARCHAR}</if>
+                <if test="domainNameAsLike != null and domainNameAsLike != ''">and organization.domain_name like concat('%',#{domainNameAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="logo != null and logo != ''">and organization.logo=#{logo,jdbcType=VARCHAR}</if>
+                <if test="logoAsLike != null and logoAsLike != ''">and organization.logo like concat('%',#{logoAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="isRealname != null">and organization.is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isRealnameOperator != null and isRealnameExpression != null">and organization.is_realname ${isRealnameOperator} ${isRealnameExpression}</if>
+                <if test="isForbidden != null">and organization.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="isForbiddenOperator != null and isForbiddenExpression != null">and organization.is_forbidden ${isForbiddenOperator} ${isForbiddenExpression}</if>
+                <if test="treeLevel != null">and organization.tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+                <if test="treeLevelOperator != null and treeLevelExpression != null">and organization.tree_level ${treeLevelOperator} ${treeLevelExpression}</if>
+				<if test="treePath != null and treePath != ''">and organization.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                <if test="treePathAsLike != null and treePathAsLike != ''">and organization.tree_path like concat('%',#{treePathAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="isChildNode != null">and organization.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                <if test="isChildNodeOperator != null and isChildNodeExpression != null">and organization.is_child_node ${isChildNodeOperator} ${isChildNodeExpression}</if>
+				<if test="blockchainAddress != null and blockchainAddress != ''">and organization.blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+                <if test="blockchainAddressAsLike != null and blockchainAddressAsLike != ''">and organization.blockchain_address like concat('%',#{blockchainAddressAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="isDelete != null">and organization.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="isDeleteOperator != null and isDeleteExpression != null">and organization.is_delete ${isDeleteOperator} ${isDeleteExpression}</if>
+                <if test="createTime != null">and organization.create_time=#{createTime,jdbcType=TIME}</if>
+                <if test="createTimeOperator != null and createTimeExpression != null">and organization.create_time ${createTimeOperator} ${createTimeExpression}</if>
+                <if test="modifyTime != null">and organization.modify_time=#{modifyTime,jdbcType=TIME}</if>
+                <if test="modifyTimeOperator != null and modifyTimeExpression != null">and organization.modify_time ${modifyTimeOperator} ${modifyTimeExpression}</if>
+				<if test="comments != null and comments != ''">and organization.comments=#{comments,jdbcType=VARCHAR}</if>
+                <if test="commentsAsLike != null and commentsAsLike != ''">and organization.comments like concat('%',#{commentsAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="organization_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="parentId != null">and parent_id=#{parentId,jdbcType=BIGINT}</if>
+                    <if test="orgCode != null and orgCode != ''">and org_code=#{orgCode,jdbcType=VARCHAR}</if>
+                    <if test="orgName != null and orgName != ''">and org_name=#{orgName,jdbcType=VARCHAR}</if>
+                    <if test="orgType != null">and org_type=#{orgType,jdbcType=TINYINT}</if>
+                    <if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+                    <if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                    <if test="domainName != null and domainName != ''">and domain_name=#{domainName,jdbcType=VARCHAR}</if>
+                    <if test="logo != null and logo != ''">and logo=#{logo,jdbcType=VARCHAR}</if>
+                    <if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+                    <if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                    <if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                    <if test="blockchainAddress != null and blockchainAddress != ''">and blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="organization_where_fields">
+        <if test="id != null">and organization.id=#{id,jdbcType=BIGINT}</if>
+        <if test="parentId != null">and organization.parent_id=#{parentId,jdbcType=BIGINT}</if>
+        <if test="orgCode != null and orgCode != ''">and organization.org_code=#{orgCode,jdbcType=VARCHAR}</if>
+        <if test="orgName != null and orgName != ''">and organization.org_name=#{orgName,jdbcType=VARCHAR}</if>
+        <if test="orgType != null">and organization.org_type=#{orgType,jdbcType=TINYINT}</if>
+        <if test="email != null and email != ''">and organization.email=#{email,jdbcType=VARCHAR}</if>
+        <if test="mobilePhone != null and mobilePhone != ''">and organization.mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+        <if test="domainName != null and domainName != ''">and organization.domain_name=#{domainName,jdbcType=VARCHAR}</if>
+        <if test="logo != null and logo != ''">and organization.logo=#{logo,jdbcType=VARCHAR}</if>
+        <if test="isRealname != null">and organization.is_realname=#{isRealname,jdbcType=TINYINT}</if>
+        <if test="isForbidden != null">and organization.is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+        <if test="treeLevel != null">and organization.tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+        <if test="treePath != null and treePath != ''">and organization.tree_path=#{treePath,jdbcType=VARCHAR}</if>
+        <if test="isChildNode != null">and organization.is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+        <if test="blockchainAddress != null and blockchainAddress != ''">and organization.blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+        <if test="isDelete != null">and organization.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+        <if test="createTime != null">and organization.create_time=#{createTime,jdbcType=TIME}</if>
+        <if test="modifyTime != null">and organization.modify_time=#{modifyTime,jdbcType=TIME}</if>
+        <if test="comments != null and comments != ''">and organization.comments=#{comments,jdbcType=VARCHAR}</if>
+	</sql>
+
+	<sql id="organization_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+				<if test="parentId != null">and parent_id=#{parentId,jdbcType=BIGINT}</if>
+				<if test="orgCode != null and orgCode != ''">and org_code=#{orgCode,jdbcType=VARCHAR}</if>
+				<if test="orgName != null and orgName != ''">and org_name=#{orgName,jdbcType=VARCHAR}</if>
+				<if test="orgType != null">and org_type=#{orgType,jdbcType=TINYINT}</if>
+				<if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="domainName != null and domainName != ''">and domain_name=#{domainName,jdbcType=VARCHAR}</if>
+				<if test="logo != null and logo != ''">and logo=#{logo,jdbcType=VARCHAR}</if>
+				<if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+				<if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+				<if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+				<if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+				<if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+				<if test="blockchainAddress != null and blockchainAddress != ''">and blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+				<if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+				<if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+				<if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+				<if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="organization_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="parentId != null">and parent_id=#{parentId,jdbcType=BIGINT}</if>
+                    <if test="orgCode != null and orgCode != ''">and org_code=#{orgCode,jdbcType=VARCHAR}</if>
+                    <if test="orgName != null and orgName != ''">and org_name=#{orgName,jdbcType=VARCHAR}</if>
+                    <if test="orgType != null">and org_type=#{orgType,jdbcType=TINYINT}</if>
+                    <if test="email != null and email != ''">and email=#{email,jdbcType=VARCHAR}</if>
+                    <if test="mobilePhone != null and mobilePhone != ''">and mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+                    <if test="domainName != null and domainName != ''">and domain_name=#{domainName,jdbcType=VARCHAR}</if>
+                    <if test="logo != null and logo != ''">and logo=#{logo,jdbcType=VARCHAR}</if>
+                    <if test="isRealname != null">and is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                    <if test="isForbidden != null">and is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                    <if test="treeLevel != null">and tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+                    <if test="treePath != null and treePath != ''">and tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                    <if test="isChildNode != null">and is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+                    <if test="blockchainAddress != null and blockchainAddress != ''">and blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+                    <if test="modifyTime != null">and modify_time=#{modifyTime,jdbcType=TIME}</if>
+                    <if test="comments != null and comments != ''">and comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="organization_where_id">
+		where organization.id=#{id,jdbcType=BIGINT}
+	</sql>
+
+    <sql id="organization_delete_where_id">
+        where id=#{id,jdbcType=BIGINT}
+    </sql>
+
+	<sql id="organization_update_where_id">
+		where id=#{id,jdbcType=BIGINT}
+	</sql>
+
+	<sql id="organization_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="parentId != null">and organization.parent_id=#{parentId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="organization_where_ids">
+		<if test="ids != null">
+			where organization.id in
+			<trim prefixOverrides=",">
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")"> 
+            	${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="organization_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				organization.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				organization.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="organization_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				organization.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="organization_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="organization_update">
+		update organization
+	</sql>
+
+	<sql id="organization_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=#{id,jdbcType=BIGINT}</if>
+                <if test="parentId != null">,parent_id=#{parentId,jdbcType=BIGINT}</if>
+				<if test="orgCode != null and orgCode != ''">,org_code=#{orgCode,jdbcType=VARCHAR}</if>
+				<if test="orgName != null and orgName != ''">,org_name=#{orgName,jdbcType=VARCHAR}</if>
+                <if test="orgType != null">,org_type=#{orgType,jdbcType=TINYINT}</if>
+				<if test="email != null and email != ''">,email=#{email,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">,mobile_phone=#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="domainName != null and domainName != ''">,domain_name=#{domainName,jdbcType=VARCHAR}</if>
+				<if test="logo != null and logo != ''">,logo=#{logo,jdbcType=VARCHAR}</if>
+                <if test="isRealname != null">,is_realname=#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isForbidden != null">,is_forbidden=#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="treeLevel != null">,tree_level=#{treeLevel,jdbcType=TINYINT}</if>
+				<if test="treePath != null and treePath != ''">,tree_path=#{treePath,jdbcType=VARCHAR}</if>
+                <if test="isChildNode != null">,is_child_node=#{isChildNode,jdbcType=TINYINT}</if>
+				<if test="blockchainAddress != null and blockchainAddress != ''">,blockchain_address=#{blockchainAddress,jdbcType=VARCHAR}</if>
+                <if test="isDelete != null">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="createTime != null">,create_time=#{createTime,jdbcType=TIME}</if>
+				,modify_time=now()
+				<if test="comments != null and comments != ''">,comments=#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="organization_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=NULL</if>
+                <if test="parentId != null">,parent_id=NULL</if>
+				<if test="orgCode != null and  orgCode != null">,org_code=NULL</if>
+				<if test="orgName != null and  orgName != null">,org_name=NULL</if>
+                <if test="orgType != null">,org_type=NULL</if>
+				<if test="email != null and  email != null">,email=NULL</if>
+				<if test="mobilePhone != null and  mobilePhone != null">,mobile_phone=NULL</if>
+				<if test="domainName != null and  domainName != null">,domain_name=NULL</if>
+				<if test="logo != null and  logo != null">,logo=NULL</if>
+                <if test="isRealname != null">,is_realname=NULL</if>
+                <if test="isForbidden != null">,is_forbidden=NULL</if>
+                <if test="treeLevel != null">,tree_level=NULL</if>
+				<if test="treePath != null and  treePath != null">,tree_path=NULL</if>
+                <if test="isChildNode != null">,is_child_node=NULL</if>
+				<if test="blockchainAddress != null and  blockchainAddress != null">,blockchain_address=NULL</if>
+                <if test="isDelete != null">,is_delete=NULL</if>
+                <if test="createTime != null">,create_time=NULL</if>
+                <if test="modifyTime != null">,modify_time=NULL</if>
+				<if test="comments != null and  comments != null">,comments=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="organization_insert">
+		insert into organization
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,id</if>
+                <if test="parentId != null">,parent_id</if>
+                <if test="orgCode != null and orgCode != ''">,org_code</if>
+                <if test="orgName != null and orgName != ''">,org_name</if>
+                <if test="orgType != null">,org_type</if>
+                <if test="email != null and email != ''">,email</if>
+                <if test="mobilePhone != null and mobilePhone != ''">,mobile_phone</if>
+                <if test="domainName != null and domainName != ''">,domain_name</if>
+                <if test="logo != null and logo != ''">,logo</if>
+                <if test="isRealname != null">,is_realname</if>
+                <if test="isForbidden != null">,is_forbidden</if>
+                <if test="treeLevel != null">,tree_level</if>
+                <if test="treePath != null and treePath != ''">,tree_path</if>
+                <if test="isChildNode != null">,is_child_node</if>
+                <if test="blockchainAddress != null and blockchainAddress != ''">,blockchain_address</if>
+                <if test="isDelete != null">,is_delete</if>
+                ,create_time
+                ,modify_time
+                <if test="comments != null and comments != ''">,comments</if>
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,#{id,jdbcType=BIGINT}</if>
+                <if test="parentId != null">,#{parentId,jdbcType=BIGINT}</if>
+				<if test="orgCode != null and orgCode != ''">,#{orgCode,jdbcType=VARCHAR}</if>
+				<if test="orgName != null and orgName != ''">,#{orgName,jdbcType=VARCHAR}</if>
+                <if test="orgType != null">,#{orgType,jdbcType=TINYINT}</if>
+				<if test="email != null and email != ''">,#{email,jdbcType=VARCHAR}</if>
+				<if test="mobilePhone != null and mobilePhone != ''">,#{mobilePhone,jdbcType=VARCHAR}</if>
+				<if test="domainName != null and domainName != ''">,#{domainName,jdbcType=VARCHAR}</if>
+				<if test="logo != null and logo != ''">,#{logo,jdbcType=VARCHAR}</if>
+                <if test="isRealname != null">,#{isRealname,jdbcType=TINYINT}</if>
+                <if test="isForbidden != null">,#{isForbidden,jdbcType=TINYINT}</if>
+                <if test="treeLevel != null">,#{treeLevel,jdbcType=TINYINT}</if>
+				<if test="treePath != null and treePath != ''">,#{treePath,jdbcType=VARCHAR}</if>
+                <if test="isChildNode != null">,#{isChildNode,jdbcType=TINYINT}</if>
+				<if test="blockchainAddress != null and blockchainAddress != ''">,#{blockchainAddress,jdbcType=VARCHAR}</if>
+                <if test="isDelete != null">,#{isDelete,jdbcType=TINYINT}</if>
+                ,now()
+				,now()
+				<if test="comments != null and comments != ''">,#{comments,jdbcType=VARCHAR}</if>
+			</trim>
+	</sql>
+
+	<sql id="organization_delete">
+		delete from organization
+	</sql>
+
+	<parameterMap id="log" type="log" />
+	<resultMap id="log" type="log">
+		<id property="id" column="log_id" javaType="java.lang.Long" />
+		<result property="userId" column="log_userId" javaType="java.lang.Long" />
+		<result property="userName" column="log_userName" javaType="java.lang.String" />
+		<result property="operateTime" column="log_operateTime" javaType="java.lang.String" />
+		<result property="logType" column="log_logType" javaType="java.lang.String" />
+		<result property="content" column="log_content" javaType="java.lang.String" />
+		<result property="accessIp" column="log_accessIp" javaType="java.lang.String" />
+		<result property="isDelete" column="log_isDelete" javaType="java.lang.Integer" />
+		<result property="createTime" column="log_createTime" javaType="java.lang.String" />
+	</resultMap>
+
+
+	<sql id="log_select">
+		select
+	</sql>
+	<sql id="log_select_count">
+		select count(*)
+	</sql>
+	<sql id="log_select_id">
+		select log.id
+	</sql>
+	<sql id="log_select_distinct">
+		select distinct
+	</sql>
+	
+	<sql id="log_select_fields">
+        select
+			log.id log_id,
+			log.user_id log_userId,
+			log.user_name log_userName,
+			log.operate_time log_operateTime,
+			log.log_type log_logType,
+			log.content log_content,
+			log.access_ip log_accessIp,
+			log.is_delete log_isDelete,
+			log.create_time log_createTime
+	</sql>
+
+    <sql id="log_select_distinct_fields">
+        select distinct
+            log.id log_id,
+            log.user_id log_userId,
+            log.user_name log_userName,
+            log.operate_time log_operateTime,
+            log.log_type log_logType,
+            log.content log_content,
+            log.access_ip log_accessIp,
+            log.is_delete log_isDelete,
+            log.create_time log_createTime
+    </sql>
+
+
+	<sql id="log_from">
+		from log log
+	</sql>
+
+	<sql id="log_inner_all">
+	</sql>
+
+
+	<sql id="log_left_all">
+	</sql>
+
+
+	<sql id="log_where">
+		<where>
+			<trim prefixOverrides="and | or">
+                <if test="id != null">and log.id=#{id,jdbcType=BIGINT}</if>
+                <if test="idOperator != null and idExpression != null">and log.id ${idOperator} ${idExpression}</if>
+                <if test="userId != null">and log.user_id=#{userId,jdbcType=BIGINT}</if>
+                <if test="userIdOperator != null and userIdExpression != null">and log.user_id ${userIdOperator} ${userIdExpression}</if>
+				<if test="userName != null and userName != ''">and log.user_name=#{userName,jdbcType=VARCHAR}</if>
+                <if test="userNameAsLike != null and userNameAsLike != ''">and log.user_name like concat('%',#{userNameAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="operateTime != null">and log.operate_time=#{operateTime,jdbcType=TIME}</if>
+                <if test="operateTimeOperator != null and operateTimeExpression != null">and log.operate_time ${operateTimeOperator} ${operateTimeExpression}</if>
+				<if test="logType != null and logType != ''">and log.log_type=#{logType,jdbcType=VARCHAR}</if>
+                <if test="logTypeAsLike != null and logTypeAsLike != ''">and log.log_type like concat('%',#{logTypeAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="content != null and content != ''">and log.content=#{content,jdbcType=VARCHAR}</if>
+                <if test="contentAsLike != null and contentAsLike != ''">and log.content like concat('%',#{contentAsLike,jdbcType=VARCHAR},'%')</if>
+				<if test="accessIp != null and accessIp != ''">and log.access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+                <if test="accessIpAsLike != null and accessIpAsLike != ''">and log.access_ip like concat('%',#{accessIpAsLike,jdbcType=VARCHAR},'%')</if>
+                <if test="isDelete != null">and log.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="isDeleteOperator != null and isDeleteExpression != null">and log.is_delete ${isDeleteOperator} ${isDeleteExpression}</if>
+                <if test="createTime != null">and log.create_time=#{createTime,jdbcType=TIME}</if>
+                <if test="createTimeOperator != null and createTimeExpression != null">and log.create_time ${createTimeOperator} ${createTimeExpression}</if>
+                <if test="searchCriteria != null and searchCriteria != ''">and (${searchCriteria})</if>
+			</trim>
+		</where>
+	</sql>
+
+    <sql id="log_delete_where">
+        <where>
+            <trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+                    <if test="userName != null and userName != ''">and user_name=#{userName,jdbcType=VARCHAR}</if>
+                    <if test="operateTime != null">and operate_time=#{operateTime,jdbcType=TIME}</if>
+                    <if test="logType != null and logType != ''">and log_type=#{logType,jdbcType=VARCHAR}</if>
+                    <if test="content != null and content != ''">and content=#{content,jdbcType=VARCHAR}</if>
+                    <if test="accessIp != null and accessIp != ''">and access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+            </trim>
+        </where>
+    </sql>
+	
+	<sql id="log_where_fields">
+        <if test="id != null">and log.id=#{id,jdbcType=BIGINT}</if>
+        <if test="userId != null">and log.user_id=#{userId,jdbcType=BIGINT}</if>
+        <if test="userName != null and userName != ''">and log.user_name=#{userName,jdbcType=VARCHAR}</if>
+        <if test="operateTime != null">and log.operate_time=#{operateTime,jdbcType=TIME}</if>
+        <if test="logType != null and logType != ''">and log.log_type=#{logType,jdbcType=VARCHAR}</if>
+        <if test="content != null and content != ''">and log.content=#{content,jdbcType=VARCHAR}</if>
+        <if test="accessIp != null and accessIp != ''">and log.access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+        <if test="isDelete != null">and log.is_delete=#{isDelete,jdbcType=TINYINT}</if>
+        <if test="createTime != null">and log.create_time=#{createTime,jdbcType=TIME}</if>
+	</sql>
+
+	<sql id="log_update_where">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+				<if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+				<if test="userName != null and userName != ''">and user_name=#{userName,jdbcType=VARCHAR}</if>
+				<if test="operateTime != null">and operate_time=#{operateTime,jdbcType=TIME}</if>
+				<if test="logType != null and logType != ''">and log_type=#{logType,jdbcType=VARCHAR}</if>
+				<if test="content != null and content != ''">and content=#{content,jdbcType=VARCHAR}</if>
+				<if test="accessIp != null and accessIp != ''">and access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+				<if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+				<if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="log_update_where_fields">
+		<where>
+			<trim prefixOverrides="and">
+                    <if test="id != null">and id=#{id,jdbcType=BIGINT}</if>
+                    <if test="userId != null">and user_id=#{userId,jdbcType=BIGINT}</if>
+                    <if test="userName != null and userName != ''">and user_name=#{userName,jdbcType=VARCHAR}</if>
+                    <if test="operateTime != null">and operate_time=#{operateTime,jdbcType=TIME}</if>
+                    <if test="logType != null and logType != ''">and log_type=#{logType,jdbcType=VARCHAR}</if>
+                    <if test="content != null and content != ''">and content=#{content,jdbcType=VARCHAR}</if>
+                    <if test="accessIp != null and accessIp != ''">and access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+                    <if test="isDelete != null">and is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                    <if test="createTime != null">and create_time=#{createTime,jdbcType=TIME}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="log_where_id">
+		where log.id=#{id,jdbcType=BIGINT}
+	</sql>
+
+    <sql id="log_delete_where_id">
+        where id=#{id,jdbcType=BIGINT}
+    </sql>
+
+	<sql id="log_update_where_id">
+		where id=#{id,jdbcType=BIGINT}
+	</sql>
+
+	<sql id="log_where_reference_id">
+		<where>
+			<trim prefixOverrides="and">
+                <if test="userId != null">and log.user_id=#{userId,jdbcType=BIGINT}</if>
+			</trim>
+		</where>
+	</sql>
+
+	<sql id="log_where_ids">
+		<if test="ids != null">
+			where log.id in
+			<trim prefixOverrides=",">
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")"> 
+            	${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="log_order">
+        <if test="sorder != null">
+            order by ${sorder}
+        </if>
+        <if test="dorder != null or aorder != null">
+			order by
+			<trim prefixOverrides=",">
+				<if test="dorder != null">
+				<foreach collection="dorder" index="index" item="item" separator=",">
+				log.${item} desc
+        		</foreach>
+        		</if>  
+        		<if test="aorder != null">
+				<foreach collection="aorder" index="index" item="item" separator=",">
+				log.${item} asc
+        		</foreach>
+        		</if>  
+			</trim>
+		</if>  
+	</sql>
+
+	<sql id="log_group">
+		<if test="sgroup != null">
+			group by
+			<trim prefixOverrides=",">
+				<foreach collection="sgroup" index="index" item="item" separator=",">
+				log.${item}
+        		</foreach>
+			</trim>
+		</if>
+	</sql>
+
+	<sql id="log_limit">
+		limit ${start},${offset}
+	</sql>
+
+	<sql id="log_update">
+		update log
+	</sql>
+
+	<sql id="log_update_set">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=#{id,jdbcType=BIGINT}</if>
+                <if test="userId != null">,user_id=#{userId,jdbcType=BIGINT}</if>
+				<if test="userName != null and userName != ''">,user_name=#{userName,jdbcType=VARCHAR}</if>
+                <if test="operateTime != null">,operate_time=#{operateTime,jdbcType=TIME}</if>
+				<if test="logType != null and logType != ''">,log_type=#{logType,jdbcType=VARCHAR}</if>
+				<if test="content != null and content != ''">,content=#{content,jdbcType=VARCHAR}</if>
+				<if test="accessIp != null and accessIp != ''">,access_ip=#{accessIp,jdbcType=VARCHAR}</if>
+                <if test="isDelete != null">,is_delete=#{isDelete,jdbcType=TINYINT}</if>
+                <if test="createTime != null">,create_time=#{createTime,jdbcType=TIME}</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="log_update_set_null">
+		<set>
+			<trim prefixOverrides=",">
+                <if test="id != null">,id=NULL</if>
+                <if test="userId != null">,user_id=NULL</if>
+				<if test="userName != null and  userName != null">,user_name=NULL</if>
+                <if test="operateTime != null">,operate_time=NULL</if>
+				<if test="logType != null and  logType != null">,log_type=NULL</if>
+				<if test="content != null and  content != null">,content=NULL</if>
+				<if test="accessIp != null and  accessIp != null">,access_ip=NULL</if>
+                <if test="isDelete != null">,is_delete=NULL</if>
+                <if test="createTime != null">,create_time=NULL</if>
+			</trim>
+		</set>
+	</sql>
+
+	<sql id="log_insert">
+		insert into log
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,id</if>
+                <if test="userId != null">,user_id</if>
+                <if test="userName != null and userName != ''">,user_name</if>
+                <if test="operateTime != null">,operate_time</if>
+                <if test="logType != null and logType != ''">,log_type</if>
+                <if test="content != null and content != ''">,content</if>
+                <if test="accessIp != null and accessIp != ''">,access_ip</if>
+                <if test="isDelete != null">,is_delete</if>
+                ,create_time
+			</trim>
+		values
+			<trim prefix="(" prefixOverrides="," suffix=")">
+                <if test="id != null">,#{id,jdbcType=BIGINT}</if>
+                <if test="userId != null">,#{userId,jdbcType=BIGINT}</if>
+				<if test="userName != null and userName != ''">,#{userName,jdbcType=VARCHAR}</if>
+                <if test="operateTime != null">,#{operateTime,jdbcType=TIME}</if>
+				<if test="logType != null and logType != ''">,#{logType,jdbcType=VARCHAR}</if>
+				<if test="content != null and content != ''">,#{content,jdbcType=VARCHAR}</if>
+				<if test="accessIp != null and accessIp != ''">,#{accessIp,jdbcType=VARCHAR}</if>
+                <if test="isDelete != null">,#{isDelete,jdbcType=TINYINT}</if>
+                ,now()
+			</trim>
+	</sql>
+
+	<sql id="log_delete">
+		delete from log
+	</sql>
+
+
+	<insert id="save" parameterMap="log" flushCache="true">
+		<include refid="log_insert"/>
+	</insert>
+	
+	<update id="updateById" parameterMap="log" flushCache="true">
+		<include refid="log_update"/>
+		<include refid="log_update_set"/>
+		<include refid="log_update_where_id"/>
+	</update>
+
+    <update id="update" parameterMap="log" flushCache="true">
+        <include refid="log_update"/>
+        <include refid="log_update_set"/>
+        <include refid="log_update_where"/>
+    </update>
+
+	<delete id="removeCriteria" parameterMap="log" flushCache="true">
+		<include refid="log_delete"/>
+		<include refid="log_delete_where"/>
+	</delete>
+	
+	<delete id="removeById" parameterType="java.lang.Long" flushCache="true">
+		<include refid="log_delete"/>
+		<include refid="log_delete_where_id"/>
+	</delete>
+
+	<select id="listIdsCriteria" resultType="java.lang.Long" parameterMap="log" useCache="false">
+		<include refid="log_select_id"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+	</select>
+	
+	<delete id="removeAll" parameterMap="log" flushCache="true">
+		<include refid="log_delete"/>
+	</delete>
+
+
+	<select id="listByInIds" resultMap="log" parameterMap="log" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where_ids"/>
+	</select>
+	<select id="listCriteria" resultMap="log" parameterMap="log" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+		<include refid="log_order"/>
+		<include refid="log_group"/>
+	</select>
+	
+	<select id="listAll" resultMap="log" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+	</select>
+	
+	<select id="getOneById" resultMap="log" parameterType="java.lang.Long" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where_id"/>
+	</select>		
+	
+	<select id="getOneCriteria" resultMap="log" parameterMap="log" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+	</select>	
+
+	<select id="listPaginated" resultMap="log" parameterMap="log" useCache="false">
+		<include refid="log_select_fields"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+		<include refid="log_order"/>
+		<include refid="log_group"/>
+	</select>
+	
+	<select id="count" resultType="java.lang.Long" parameterMap="log">
+		<include refid="log_select_count"/>
+		<include refid="log_from"/>
+		<include refid="log_where"/>
+	</select>
+
+</mapper>
