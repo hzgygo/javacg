@@ -52,7 +52,7 @@
         <spring-boot-mybatis.version>1.3.0</spring-boot-mybatis.version>
         <aspectjweaver.version>1.8.9</aspectjweaver.version>
         <mysql-connector.version>5.1.6</mysql-connector.version>
-        <spring.version>5.0.5.RELEASE</spring.version>
+        <spring.version>5.2.20.RELEASE</spring.version>
         <mybatis-spring.version>1.3.0</mybatis-spring.version>
         <dom4j.version>1.6.1</dom4j.version>
         <slf4j.version>1.7.24</slf4j.version>
